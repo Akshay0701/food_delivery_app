@@ -1,5 +1,5 @@
 # food_delivery_app
-![](capture.jpg)
+![](banner.png)
 A new Flutter project.
 
 ## Getting Started
