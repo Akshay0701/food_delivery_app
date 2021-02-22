@@ -26,5 +26,5 @@ samples, guidance on mobile development, and a full API reference.
 # Database 
 
 <img src="https://cdn-media-1.freecodecamp.org/images/0*CPTNvq87xG-sUGdx.png" height="300" width="400">
-
+ 
 
