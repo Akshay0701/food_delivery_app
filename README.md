@@ -1,4 +1,4 @@
-# Food delivery app
+# Food Delivery app
 ![](banner.png)
 A new Flutter project.
 
