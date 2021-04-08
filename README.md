@@ -1,6 +1,6 @@
 # Food Delivery app
 ![](banner.png)
-A new Flutter project.
+A new Flutter project
 
 ## Getting Started
 
