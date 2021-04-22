@@ -14,7 +14,6 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-
 ### Home Screen & Loading Screen
 <img src="https://i.ibb.co/d29mMgn/homepage.jpg" height="400" width="200">---<img src="https://i.ibb.co/TkyLSdD/homepage2.jpg" height="400" width="200">---<img src="https://i.ibb.co/gSrJ7bz/category.jpg" height="400" width="200">
 
@@ -26,7 +25,6 @@ samples, guidance on mobile development, and a full API reference.
 # Database 
 
 <img src="https://cdn-media-1.freecodecamp.org/images/0*CPTNvq87xG-sUGdx.png" height="300" width="400">
- 
  
  
  
