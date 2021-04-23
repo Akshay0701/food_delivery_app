@@ -1,115 +1,73 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:floating_search_bar/floating_search_bar.dart';
+/*
+ * Copyright (c) 2021 Akshay Jadhav <jadhavakshay0701@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:food_delivery_app/blocs/HomePageBloc.dart';
 import 'package:food_delivery_app/models/Category.dart';
-import 'package:food_delivery_app/models/Food.dart';
 import 'package:food_delivery_app/resourese/auth_methods.dart';
 import 'package:food_delivery_app/screens/CartPage.dart';
 import 'package:food_delivery_app/screens/CategoryListPage.dart';
+import 'package:food_delivery_app/screens/FoodDetailPage.dart';
 import 'package:food_delivery_app/screens/MyOrderPage.dart';
 import 'package:food_delivery_app/screens/SearchPage.dart';
 import 'package:food_delivery_app/widgets/categorywidget.dart';
 import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
+import 'package:provider/provider.dart';
 
-
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => HomePageBloc(),
+      child: HomePageContent()
+    );
+  }
 }
 
-class _HomePageState extends State<HomePage> {
-  //for database
-  AuthMethods _authMethods=AuthMethods();
+class HomePageContent extends StatefulWidget {
 
-  TextEditingController searchCtrl=TextEditingController();
+  @override
+  _HomePageContentState createState() => _HomePageContentState();
+}
 
-  List<Category> categoryList=[];
-  List<Food> foodList=[];
-  List<Food> popularFoodList=[];
+class _HomePageContentState extends State<HomePageContent> {
 
-  //for recently added food
-  Category recentlyCategory=Category(image:"https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",name: "burger",keys: "08");
-  Category recentlyCategory2=Category(image:"https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/216054.jpg",name: "Pizza",keys: "04");
-  Category recentlyCategory3=Category(image:"https://static.toiimg.com/thumb/54659021.cms?width=1200&height=1200",name: "french fries",keys: "07");
-  Category recentlyCategory4=Category(image:"https://i.pinimg.com/originals/3b/b4/ea/3bb4ea708b73c60a11ccd4a7bdbb1524.jpg",name: "kfc chicken",keys: "09");
-
-  FirebaseUser firebaseUser;
+  HomePageBloc homePageBloc;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    //get user data
-     _authMethods.getCurrentUser().then((FirebaseUser User)  {
-      setState(() {
-        firebaseUser=User;
-        print(firebaseUser);
-      });
-     });
-
-    //getting data for category
-    DatabaseReference reference=FirebaseDatabase.instance.reference().child("Category");
-     reference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS=snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA=snap.value;
-      categoryList.clear();
-      for(var individualKey in KEYS){
-        Category posts= new Category(
-          image: DATA[individualKey]['Image'],
-          name:DATA[individualKey]['Name'],
-          keys:individualKey.toString(),
-        );
-
-        categoryList.add(posts);
-      }
-
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
+      homePageBloc.getCurrentUser();
+      homePageBloc.getCategoryFoodList();
+      homePageBloc.getRecommendedFoodList();
     });
-
-    //getting food list
-    DatabaseReference foodReference=FirebaseDatabase.instance.reference().child("Foods");
-     foodReference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS=snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA=snap.value;
-
-      foodList.clear();
-      for(var individualKey in KEYS){
-        Food food= new Food(
-          description: DATA[individualKey]['description'],
-          discount: DATA[individualKey]['discount'],
-          image:DATA[individualKey]['image'],
-          menuId:DATA[individualKey]['menuId'],
-          name:DATA[individualKey]['name'],
-          price:DATA[individualKey]['price'],
-          keys: individualKey.toString()
-        );
-        if(food.menuId=="05"){
-          popularFoodList.add(food);
-        }
-        if(food.menuId=="03"){
-          foodList.add(food);
-        }
-      }
-      setState(() {
-        print("data");
-      });
-    });
-  //  getData();
   }
+  
   @override
   Widget build(BuildContext context) {
-
+    homePageBloc = Provider.of<HomePageBloc>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: new IconThemeData(color: Colors.white),
         elevation: 0.0,
-        title: Text("Home",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 30.0),),
-//        bottom: createSearchBar(),
+        title: Text("Home", style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 30.0),),
       ),
       drawer: createDrawer(),
       body: SingleChildScrollView(
@@ -121,33 +79,93 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              createSearchBar(),
+            createSearchBar(),
+            SizedBox(height: 10.0,),
+            createbanner(),
             SizedBox(height: 10.0,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal:18.0,vertical: 5.0),
-              child: Text("Recently Add",style: TextStyle(color: Colors.orange,fontSize: 30.0,fontWeight: FontWeight.bold,),),
+              child: Text("Recently Added",style: TextStyle(color: Colors.orange,fontSize: 30.0,fontWeight: FontWeight.bold,),),
             ),
-
-            createListRecntlyAdd(),
+            createListRecntlyAdd(), 
+            SizedBox(height: 10.0,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal:18.0),
               child: Text("Food Category",style: TextStyle(color: Colors.orange,fontSize: 30.0,fontWeight: FontWeight.bold,),),
             ),
-
-              createFoodCategory(),
-              createPopularFoodList(),
+            createFoodCategory(),
+            createPopularFoodList(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal:18.0),
               child: Text("For You",style: TextStyle(color: Colors.black45,fontSize: 20.0,fontWeight: FontWeight.bold,),),
             ),
-
-              createForYou(),
+            createForYou(),
           ],)
         ),
       ),
     );
   }
 
+  createbanner(){
+    // for creating image list with name 
+    final List<Widget> imageSliders = homePageBloc.bannerFoodList.map((item) => GestureDetector(
+    onTap: ()=> Navigator.push(context, MaterialPageRoute(builder:(context)=>FoodDetailPage(food:item))),
+    child: Container(
+      margin: EdgeInsets.all(5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        child: Stack(
+          children: <Widget>[
+            Image.network(item.image, fit: BoxFit.cover, width: 1000.0),
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(200, 0, 0, 0),
+                      Color.fromARGB(0, 0, 0, 0)
+                    ],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                child: Text(
+                  '${item.name}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
+      ),
+    ),
+  )).toList();
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 15.0),
+    child: Container(
+        child: Column(children: <Widget>[
+          CarouselSlider(
+            options: CarouselOptions(
+              autoPlay: true,
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+            ),
+            items: imageSliders,
+          ),
+        ],)
+      ),
+    );
+  }
 
   createDrawer(){
     return Drawer(
@@ -158,10 +176,9 @@ class _HomePageState extends State<HomePage> {
             child: UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: Colors.white,),
               accountName:Text("") ,
-              accountEmail: Text(firebaseUser==null?"":firebaseUser.email),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage("https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/eggs-breakfast-avocado-1296x728-header.jpg?w=1155&h=1528"
-                  ,),),),
+              accountEmail: Text(homePageBloc.mFirebaseUser?.email?? ""),
+                currentAccountPicture: CircleAvatar(backgroundImage: NetworkImage("https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/eggs-breakfast-avocado-1296x728-header.jpg?w=1155&h=1528")),
+              ),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.transparent,
@@ -195,8 +212,9 @@ class _HomePageState extends State<HomePage> {
             trailing: Icon(Icons.arrow_forward_ios,),
             leading: Icon(Icons.clear,color: Colors.orangeAccent,),
             title: Text('Logout'),
-            onTap: () {
-              Navigator.pop(context);
+            onTap: () async {
+              final AuthMethods _authMethods = AuthMethods();
+              await _authMethods.logout();
             },
           ),
         ],
@@ -217,13 +235,13 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 10.0,),
           Container(
             height: 200.0,
-            child: popularFoodList.length==-1 ? Center(child: Center(child: CircularProgressIndicator()))
+            child: homePageBloc.popularFoodList.length==-1 ? Center(child: Center(child: CircularProgressIndicator()))
                 : ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: popularFoodList.length,
+                itemCount: homePageBloc.popularFoodList.length,
                 itemBuilder: (_,index){
                   return FoodTitleWidget(
-                    popularFoodList[index],
+                    homePageBloc.popularFoodList[index],
                   );
                 }
             ),
@@ -292,11 +310,10 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GestureDetector( onTap: ()=>gotoCateogry(recentlyCategory), child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://www.pngitem.com/pimgs/m/398-3981213_how-to-draw-burger-burger-drawing-easy-hd.png",scale: 60.0),)),
-          GestureDetector( onTap: ()=>gotoCateogry(recentlyCategory2),child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://img.favpng.com/19/11/2/pizza-clip-art-vector-graphics-pepperoni-illustration-png-favpng-Mf177mM20Db6kFJa1SmMpQN5R.jpg",scale: 60.0),)),
-          GestureDetector( onTap: ()=>gotoCateogry(recentlyCategory3),child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://www.vippng.com/png/detail/133-1337804_french-fry-png-mcdonalds-french-fries-drawing.png",scale: 60.0),)),
-          GestureDetector( onTap: ()=>gotoCateogry(recentlyCategory4),child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://www.kindpng.com/picc/m/488-4883349_png-download-png-download-kfc-chicken-bowl-easy.png",scale: 60.0),)),
-
+          GestureDetector( onTap: ()=>gotoCateogry(homePageBloc.recentlyCategory), child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://www.pngitem.com/pimgs/m/398-3981213_how-to-draw-burger-burger-drawing-easy-hd.png",scale: 60.0),)),
+          GestureDetector( onTap: ()=>gotoCateogry(homePageBloc.recentlyCategory2),child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://img.favpng.com/19/11/2/pizza-clip-art-vector-graphics-pepperoni-illustration-png-favpng-Mf177mM20Db6kFJa1SmMpQN5R.jpg",scale: 60.0),)),
+          GestureDetector( onTap: ()=>gotoCateogry(homePageBloc.recentlyCategory3),child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://www.vippng.com/png/detail/133-1337804_french-fry-png-mcdonalds-french-fries-drawing.png",scale: 60.0),)),
+          GestureDetector( onTap: ()=>gotoCateogry(homePageBloc.recentlyCategory4),child: CircleAvatar(radius: 35.0,backgroundImage: NetworkImage("https://www.kindpng.com/picc/m/488-4883349_png-download-png-download-kfc-chicken-bowl-easy.png",scale: 60.0),)),
         ],
       ),
     );
@@ -306,13 +323,13 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0),
       height: 300.0,
-      child: categoryList.length==0 ? Center(child: CircularProgressIndicator())
+      child: homePageBloc.categoryList.length==0 ? Center(child: CircularProgressIndicator())
           : ListView.builder(
         scrollDirection: Axis.horizontal,
-          itemCount: categoryList.length,
+          itemCount: homePageBloc.categoryList.length,
           itemBuilder: (_,index){
             return CategoryWidget(
-              categoryList[index],
+              homePageBloc.categoryList[index],
             );
           }
       ),
@@ -323,11 +340,11 @@ class _HomePageState extends State<HomePage> {
     return Container(
       height:MediaQuery.of(context).size.height*0.5,
       margin: EdgeInsets.symmetric(vertical: 20.0),
-      child: foodList.length==0 ? Center(child: CircularProgressIndicator())
+      child: homePageBloc.foodList.length==0 ? Center(child: CircularProgressIndicator())
           : ListView.builder(
-          itemCount: foodList.length,
+          itemCount: homePageBloc.foodList.length,
           itemBuilder: (_,index){
-            return FoodTitleWidget(foodList[index]);
+            return FoodTitleWidget(homePageBloc.foodList[index]);
           }
       ),
     );

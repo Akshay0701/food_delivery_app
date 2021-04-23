@@ -1,7 +1,24 @@
-import 'package:firebase_database/firebase_database.dart';
+/*
+ * Copyright (c) 2021 Akshay Jadhav <jadhavakshay0701@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Category.dart';
 import 'package:food_delivery_app/models/Food.dart';
+import 'package:food_delivery_app/resourese/firebase_helper.dart';
+import 'package:food_delivery_app/utils/universal_variables.dart';
 import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
 
 
@@ -14,51 +31,12 @@ class CategoryListPage extends StatefulWidget {
 
 class _CategoryListPageState extends State<CategoryListPage> {
 
-  List<Food> foodList=[];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    //getting food list
-    DatabaseReference foodReference=FirebaseDatabase.instance.reference().child("Foods");
-    foodReference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS=snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA=snap.value;
+  FirebaseHelper mFirebaseHelper = FirebaseHelper();
 
-      foodList.clear();
-      for(var individualKey in KEYS){
-        Food food= new Food(
-            description: DATA[individualKey]['description'],
-            discount: DATA[individualKey]['discount'],
-            image:DATA[individualKey]['image'],
-            menuId:DATA[individualKey]['menuId'],
-            name:DATA[individualKey]['name'],
-            price:DATA[individualKey]['price'],
-            keys: individualKey.toString()
-        );
-        if(food.menuId==widget.category.keys){
-          foodList.add(food);
-        }
-      }
-      setState(() {
-        print("data");
-      });
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-//      appBar: AppBar(
-//        elevation: 0.0,
-//        iconTheme: IconThemeData(
-//            color: Colors.white,
-//        ),
-//        backgroundColor: Colors.transparent,
-////        title: Text("",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-//      ),
       body: SingleChildScrollView(
         child:
            Column(
@@ -86,14 +64,14 @@ class _CategoryListPageState extends State<CategoryListPage> {
                           ),),),
                       Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(widget.category.name,style: TextStyle(fontSize: 35.0,fontWeight: FontWeight.bold,color: Colors.white),),
+                      child: Text(widget.category.name,style: TextStyle(fontSize: 35.0,fontWeight: FontWeight.bold,color: UniversalVariables.whiteColor),),
                     ),
                   ],),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: UniversalVariables.whiteColor,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.0),
                       topRight: Radius.circular(20.0)
@@ -106,7 +84,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                       children: [
                         Text("12 restaurants",style: TextStyle(color: Colors.black45),),
                         IconButton(
-                          icon: Icon(Icons.menu,color: Colors.orange,),
+                          icon: Icon(Icons.menu,color: UniversalVariables.orangeColor,),
                           onPressed: ()=>null,
                         )
                       ],
@@ -123,17 +101,24 @@ class _CategoryListPageState extends State<CategoryListPage> {
   createFoodList(){
     return Container(
       height: MediaQuery.of(context).size.height,
-      child: foodList.length==-1 ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemCount: foodList.length,
-          itemBuilder: (_,index){
-            return FoodTitleWidget(
-              foodList[index],
-            );
-          }
-      ),
+      child: StreamBuilder<List<Food>>(
+            stream: mFirebaseHelper.fetchSpecifiedFoods(widget.category.keys).asStream(),
+            builder: (context,AsyncSnapshot<List<Food>> snapshot) {
+              if(snapshot.hasData){
+                return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_,index){
+                     return FoodTitleWidget(
+                     snapshot.data[index],
+                  );
+                }
+                );
+              }
+              return Center(child: CircularProgressIndicator());
+            }
+          ),
     );
   }
 }
