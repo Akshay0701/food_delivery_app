@@ -14,22 +14,23 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Food.dart';
 
 import 'package:food_delivery_app/models/Category.dart';
 import 'package:food_delivery_app/resourese/auth_methods.dart';
+import 'package:food_delivery_app/resourese/firebase_helper.dart';
 
 class HomePageBloc with ChangeNotifier {
+
+  FirebaseHelper mFirebaseHelper = FirebaseHelper();
   AuthMethods mAuthMethods = AuthMethods();
 
-  List<Category> categoryList=[];
-  List<Food> foodList=[];
-  List<Food> popularFoodList=[];
-  List<Food> bannerFoodList=[];
+  List<Category> categoryList = [];
+  List<Food> foodList = [];
+  List<Food> popularFoodList = [];
+  List<Food> bannerFoodList = [];
   
   //for sliding view 
   final List<String> imgList = [
@@ -43,10 +44,10 @@ class HomePageBloc with ChangeNotifier {
 
 
   //for recently added food
-  Category recentlyCategory=Category(image:"https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",name: "burger",keys: "08");
-  Category recentlyCategory2=Category(image:"https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/216054.jpg",name: "Pizza",keys: "04");
-  Category recentlyCategory3=Category(image:"https://static.toiimg.com/thumb/54659021.cms?width=1200&height=1200",name: "french fries",keys: "07");
-  Category recentlyCategory4=Category(image:"https://i.pinimg.com/originals/3b/b4/ea/3bb4ea708b73c60a11ccd4a7bdbb1524.jpg",name: "kfc chicken",keys: "09");
+  Category recentlyCategory = Category(image:"https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",name: "burger",keys: "08");
+  Category recentlyCategory2 = Category(image:"https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/216054.jpg",name: "Pizza",keys: "04");
+  Category recentlyCategory3 = Category(image:"https://static.toiimg.com/thumb/54659021.cms?width=1200&height=1200",name: "french fries",keys: "07");
+  Category recentlyCategory4 = Category(image:"https://i.pinimg.com/originals/3b/b4/ea/3bb4ea708b73c60a11ccd4a7bdbb1524.jpg",name: "kfc chicken",keys: "09");
 
   FirebaseUser mFirebaseUser;
 
@@ -58,57 +59,28 @@ class HomePageBloc with ChangeNotifier {
   }
 
   getCategoryFoodList() {
-    DatabaseReference reference=FirebaseDatabase.instance.reference().child("Category");
-    reference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS=snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA=snap.value;
-      categoryList.clear();
-      for(var individualKey in KEYS) {
-        Category posts= new Category(
-          image: DATA[individualKey]['Image'],
-          name: DATA[individualKey]['Name'],
-          keys: individualKey.toString(),
-        );
-        categoryList.add(posts);
-      }
+    categoryList.clear();
+    mFirebaseHelper.fetchCategory().then((List<Category> cList) {
+      categoryList = cList;
       notifyListeners();
     });
   }
 
   getRecommendedFoodList() {
-     //getting food list
-    DatabaseReference foodReference=FirebaseDatabase.instance.reference().child("Foods");
-     foodReference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS=snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA=snap.value;
-
-      foodList.clear();
-      for(var individualKey in KEYS){
-        Food food= new Food(
-          description: DATA[individualKey]['description'],
-          discount: DATA[individualKey]['discount'],
-          image:DATA[individualKey]['image'],
-          menuId:DATA[individualKey]['menuId'],
-          name:DATA[individualKey]['name'],
-          price:DATA[individualKey]['price'],
-          keys: individualKey.toString()
-        );
+    mFirebaseHelper.fetchAllFood().then((List<Food> fList) {
+      fList.forEach((Food food) {
         // we are fetching 3 types of foods who's menu id is 05 03 and 07.
         if(food.menuId=="05"){
           popularFoodList.add(food);
         }
-        if(food.menuId=="03"){
+        else if(food.menuId=="03"){
           foodList.add(food);
         }
-        if(food.menuId=="07"){
+        else if(food.menuId=="07"){
           bannerFoodList.add(food);
         }
-      }
-      notifyListeners();
+        notifyListeners();
+      });
     });
   }
 

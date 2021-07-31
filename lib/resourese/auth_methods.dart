@@ -16,9 +16,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:food_delivery_app/models/Category.dart';
-import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/models/Request.dart';
 import 'package:food_delivery_app/models/User.dart';
 
 class AuthMethods {
@@ -28,10 +25,7 @@ class AuthMethods {
 
   // Firebase Database, will use to get reference.
   static final FirebaseDatabase _database = FirebaseDatabase.instance;
-
-  static final DatabaseReference ordersReference = _database.reference().child("Orders");
   static final DatabaseReference _userReference = _database.reference().child("Users");
-  static final DatabaseReference _categoryReference = _database.reference().child("Category");
 
   // current user getter
   Future<FirebaseUser> getCurrentUser() async {
@@ -60,6 +54,7 @@ class AuthMethods {
         email: email, password: password);
     assert (user != null);
     assert (await user.getIdToken() != null);
+    await addDataToDb(user, email, phone, password);
     return user;
   }
 
