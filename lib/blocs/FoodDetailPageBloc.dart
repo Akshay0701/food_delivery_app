@@ -30,8 +30,9 @@ class FoodDetailPageBloc with ChangeNotifier {
 
   List<Food> foodList=[];
 
-  // I dont implemented rating system, so just for good UI showing random value of rates from 0.00 to 5.00
-  // I been lazy here.
+  // I dont implemented rating system,
+  // so just for good UI, i am showing random value of rates from 0.00 to 5.00,
+  // I been lazy here XD.
   var random = new Random();
   String rating = "1.00"; 
 

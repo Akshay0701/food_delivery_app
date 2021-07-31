@@ -49,7 +49,7 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // sample discription for food details
-  String sampleDescription="The existence of the Positioned forces the Container to the left, instead of centering. Removing the Positioned, however, puts the Container in the middle-center";
+  String sampleDescription = "The existence of the Positioned forces the Container to the left, instead of centering. Removing the Positioned, however, puts the Container in the middle-center";
 
 
   @override
@@ -121,6 +121,7 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
       )
     );
   }
+
   createdetails(){
     return  Container(
       padding: EdgeInsets.all(10.0),

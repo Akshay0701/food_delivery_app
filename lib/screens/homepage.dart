@@ -147,22 +147,22 @@ class _HomePageContentState extends State<HomePageContent> {
     ),
   )).toList();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
-      child: Container(
-          child: Column(children: <Widget>[
-            CarouselSlider(
-              options: CarouselOptions(
-                autoPlay: true,
-                aspectRatio: 2.0,
-                enlargeCenterPage: true,
-                enlargeStrategy: CenterPageEnlargeStrategy.height,
-              ),
-              items: imageSliders,
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 15.0),
+    child: Container(
+        child: Column(children: <Widget>[
+          CarouselSlider(
+            options: CarouselOptions(
+              autoPlay: true,
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
             ),
-          ],)
-        ),
-      );
+            items: imageSliders,
+          ),
+        ],)
+      ),
+    );
   }
 
   createDrawer(){
