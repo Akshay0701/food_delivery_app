@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:food_delivery_app/models/Request.dart';
 import 'package:food_delivery_app/resourese/auth_methods.dart';
+import 'package:food_delivery_app/resourese/firebase_helper.dart';
 import 'package:food_delivery_app/utils/universal_variables.dart';
 import 'package:food_delivery_app/widgets/orderwidget.dart';
 class MyOrderPage extends StatefulWidget {
@@ -30,6 +31,7 @@ class MyOrderPage extends StatefulWidget {
 class _MyOrderPageState extends State<MyOrderPage> {
   List<Request> requestList=[];
   AuthMethods authMethods=AuthMethods();
+  FirebaseHelper mFirebaseHelper = FirebaseHelper();
   FirebaseUser currentUser;
 
   getuser()async{
@@ -43,7 +45,8 @@ class _MyOrderPageState extends State<MyOrderPage> {
     getuser();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       currentUser= await authMethods.getCurrentUser();
-      authMethods.fetchOrders(currentUser).then((List<Request> list){
+      mFirebaseHelper.fetchOrders(currentUser).then((List<Request> list){
+        // there are not much sync operation in my order page, i.e didn;t made any bloc file :)
         setState(() {
           requestList = list;
         });

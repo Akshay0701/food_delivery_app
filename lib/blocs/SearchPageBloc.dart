@@ -17,10 +17,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
+import 'package:food_delivery_app/resourese/firebase_helper.dart';
 
 class SearchPageBloc with ChangeNotifier {
-  final AuthMethods authMethods = AuthMethods();
+
+  FirebaseHelper mFirebaseHelper = FirebaseHelper();
 
   List<Food> searchedFoodList = [];
 
@@ -41,7 +42,7 @@ class SearchPageBloc with ChangeNotifier {
   }
 
   void loadFoodList() {
-    authMethods.fetchAllFood().then((List<Food> foods) {
+    mFirebaseHelper.fetchAllFood().then((List<Food> foods) {
       searchedFoodList = foods;
       notifyListeners();
     });

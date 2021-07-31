@@ -21,9 +21,12 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Food.dart';
 import 'package:food_delivery_app/resourese/auth_methods.dart';
 import 'package:food_delivery_app/resourese/databaseSQL.dart';
+import 'package:food_delivery_app/resourese/firebase_helper.dart';
 
 class FoodDetailPageBloc with ChangeNotifier {
+  
   AuthMethods mAuthMethods = AuthMethods();
+  FirebaseHelper mFirebaseHelper = FirebaseHelper();
 
   List<Food> foodList=[];
 
@@ -59,7 +62,7 @@ class FoodDetailPageBloc with ChangeNotifier {
 
   getPopularFoodList() {
     // setted 06 id category as popular.
-    mAuthMethods.fetchSpecifiedFoods("06").then((List<Food> list){
+    mFirebaseHelper.fetchSpecifiedFoods("06").then((List<Food> list){
         foodList = list;
         notifyListeners();
     });

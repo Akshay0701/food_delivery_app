@@ -23,27 +23,26 @@ import 'package:food_delivery_app/models/User.dart';
 
 class AuthMethods {
 
+  // Firebase auth, will use to get user info and registration and signing 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Firebase Database, will use to get reference.
   static final FirebaseDatabase _database = FirebaseDatabase.instance;
 
-  DatabaseReference ordersReference=FirebaseDatabase.instance.reference().child("Orders");
+  static final DatabaseReference ordersReference = _database.reference().child("Orders");
+  static final DatabaseReference _userReference = _database.reference().child("Users");
+  static final DatabaseReference _categoryReference = _database.reference().child("Category");
 
-  static final DatabaseReference _userReference = _database.reference().child(
-      "Users");
-  static final DatabaseReference _categoryReference = _database.reference()
-      .child("Category");
-
-  //current user getter
+  // current user getter
   Future<FirebaseUser> getCurrentUser() async {
     FirebaseUser currentUser;
     currentUser = await _auth.currentUser();
     return currentUser;
   }
 
-  //sign in
+  //sign in current user with email and password
   Future<FirebaseUser> handleSignInEmail(String email, String password) async {
     final FirebaseUser user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-    // final FirebaseUser user = result.user;
 
     assert(user != null);
     assert(await user.getIdToken() != null);
@@ -55,153 +54,28 @@ class AuthMethods {
     return user;
   }
 
+  // register new user with phone email password details
   Future<FirebaseUser> handleSignUp(phone, email, password) async {
     final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-//    user = result.user;
-
     assert (user != null);
     assert (await user.getIdToken() != null);
-    //enter data to firebase
     return user;
   }
 
-  //add user data to firebase
+  // after sign up, add user data to firebase realtime database
   Future<void> addDataToDb(FirebaseUser currentUser, String username,
-      String Phone, String Password) async {
+      String phone, String password) async {
+    
     User user = User(
         uid: currentUser.uid,
         email: currentUser.email,
-        phone: Phone,
-        password: Password
+        phone: phone,
+        password: password
     );
 
     _userReference
         .child(currentUser.uid)
         .set(user.toMap(user));
-  }
-
-
-  Future<List<Food>> fetchAllFood() async {
-    List<Food>foodList=List<Food>();
-    //getting food list
-    DatabaseReference foodReference=FirebaseDatabase.instance.reference().child("Foods");
-   await foodReference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS=snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA=snap.value;
-
-      foodList.clear();
-      for(var individualKey in KEYS){
-        Food food= new Food(
-            description: DATA[individualKey]['description'],
-            discount: DATA[individualKey]['discount'],
-            image:DATA[individualKey]['image'],
-            menuId:DATA[individualKey]['menuId'],
-            name:DATA[individualKey]['name'],
-            price:DATA[individualKey]['price'],
-            keys: individualKey.toString()
-        );
-          foodList.add(food);
-      }
-    });
-    return foodList;
-  }
-
-
-  // ignore: non_constant_identifier_names
-  Future<List<Food>> fetchSpecifiedFoods(String str) async {
-    List<Food>foodList=List<Food>();
-    //getting food list
-     DatabaseReference foodReference=FirebaseDatabase.instance.reference().child("Foods");
-   await foodReference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS=snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA=snap.value;
-
-      foodList.clear();
-      for(var individualKey in KEYS){
-        Food food= new Food(
-            description: DATA[individualKey]['description'],
-            discount: DATA[individualKey]['discount'],
-            image:DATA[individualKey]['image'],
-            menuId:DATA[individualKey]['menuId'],
-            name:DATA[individualKey]['name'],
-            price:DATA[individualKey]['price'],
-            keys: individualKey.toString()
-        );
-        if(food.menuId==str){
-          foodList.add(food);
-        }
-      }
-//      setState(() {
-//        print("data");
-//      });
-    });
-      return foodList;
-  }
-
-
-  Future<bool> PlaceOrder(Request request)async{
-    await ordersReference.child(request.uid).push().set(request.toMap(request));
-    return true;
-  }
-
- Future<List<Category>> fetchCategory()async{
-
-   List<Category> categoryList=[];
-   _categoryReference.once().then((DataSnapshot snap) {
-     // ignore: non_constant_identifier_names
-     var KEYS=snap.value.keys;
-     // ignore: non_constant_identifier_names
-     var DATA=snap.value;
-
-     categoryList.clear();
-     for(var individualKey in KEYS){
-       Category posts= new Category(
-         image: DATA[individualKey]['Image'],
-         name:DATA[individualKey]['Name'],
-         keys:individualKey.toString(),
-       );
-       categoryList.add(posts);
-     }
-
-   });
-   return categoryList;
- }
-
- //get order from orders database
-
-
-  Future<List<Request>> fetchOrders(FirebaseUser currentUser)async{
-
-    List<Request> requestList=[];
-    DatabaseReference foodReference = FirebaseDatabase.instance.reference()
-        .child("Orders")
-        .child(currentUser.uid);
-
-    await foodReference.once().then((DataSnapshot snap) {
-      // ignore: non_constant_identifier_names
-      var KEYS = snap.value.keys;
-      // ignore: non_constant_identifier_names
-      var DATA = snap.value;
-
-      requestList.clear();
-      for (var individualKey in KEYS) {
-        Request request =Request(
-          address: DATA[individualKey]['address'],
-          name:DATA[individualKey]['name'],
-          uid:DATA[individualKey]['uid'],
-          status:DATA[individualKey]['status'],
-          total:DATA[individualKey]['total'],
-          foodList:DATA[individualKey]['foodList'],
-        );
-        requestList.add(request);
-      }
-
-    });
-    return requestList;
   }
 }

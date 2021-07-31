@@ -17,7 +17,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Category.dart';
 import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
+import 'package:food_delivery_app/resourese/firebase_helper.dart';
 import 'package:food_delivery_app/utils/universal_variables.dart';
 import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
 
@@ -31,8 +31,7 @@ class CategoryListPage extends StatefulWidget {
 
 class _CategoryListPageState extends State<CategoryListPage> {
 
-  //for database
-  AuthMethods _authMethods = AuthMethods();
+  FirebaseHelper mFirebaseHelper = FirebaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +102,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
     return Container(
       height: MediaQuery.of(context).size.height,
       child: StreamBuilder<List<Food>>(
-            stream: _authMethods.fetchSpecifiedFoods(widget.category.keys).asStream(),
+            stream: mFirebaseHelper.fetchSpecifiedFoods(widget.category.keys).asStream(),
             builder: (context,AsyncSnapshot<List<Food>> snapshot) {
               if(snapshot.hasData){
                 return ListView.builder(
