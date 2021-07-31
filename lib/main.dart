@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/resourese/auth_methods.dart';
 import 'package:food_delivery_app/screens/homepage.dart';
 import 'package:food_delivery_app/screens/loginpages/login.dart';
+import 'package:food_delivery_app/utils/universal_variables.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,9 +22,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Food App',
-//      debugShowCheckedModeBanner: false,
+     debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: UniversalVariables.orangeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: FutureBuilder(
