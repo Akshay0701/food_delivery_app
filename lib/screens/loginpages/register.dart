@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:food_delivery_app/resourese/auth_methods.dart';
 import 'package:food_delivery_app/screens/homepage.dart';
 import 'package:food_delivery_app/screens/loginpages/login.dart';
+import 'package:food_delivery_app/utils/universal_variables.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: UniversalVariables.whiteColor,
         padding: EdgeInsets.only(top: 20.0,left: 20.0,right: 20.0),
         child: Form(
           key: _formKey,
@@ -86,16 +87,15 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         SizedBox(height:20.0),
         RaisedButton(
-          color: Colors.orangeAccent,
+          color: UniversalVariables.orangeAccentColor,
           onPressed: ()=>validateForm(),
-          child: Text("Login",style:TextStyle(color: Colors.white,)),
+          child: Text("Login",style:TextStyle(color:UniversalVariables.whiteColor,)),
         ),
         isLoginPressed
             ? Center(
             child: CircularProgressIndicator())
             :Container(),
-//        FlatButton.icon(onPressed: gotoLoginPage(), icon: Icon(Icons.person_add), label: Text("Already Registered ? Click Here..",style:TextStyle(color: Colors.black45,)),)
-      ],
+            ],
     );
   }
 
@@ -116,9 +116,8 @@ class _RegisterPageState extends State<RegisterPage> {
       String password=textPasswordController.text;
 
       FirebaseUser currentUser=await _authMethods.handleSignUp(phone,userName, password).then((FirebaseUser user) async{
-         await _authMethods.addDataToDb(user,userName,phone,password);
-         gotoHomePage();
-//        Navigator.push(context, new MaterialPageRoute(builder: (context) => new HomePage()));
+        await _authMethods.addDataToDb(user,userName,phone,password);
+        gotoHomePage();
       }).catchError((e) => print(e));
 
       setState(() {
