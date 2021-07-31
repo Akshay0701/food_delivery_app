@@ -19,6 +19,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:food_delivery_app/models/Category.dart';
 import 'package:food_delivery_app/models/Food.dart';
 import 'package:food_delivery_app/models/Request.dart';
+import 'package:food_delivery_app/resourese/auth_methods.dart';
+import 'package:food_delivery_app/resourese/databaseSQL.dart';
 
 class FirebaseHelper{
 
@@ -85,23 +87,21 @@ class FirebaseHelper{
     return true;
   }
 
- Future<List<Category>> fetchCategory()async{
-
+ Future<List<Category>> fetchCategory() async {
    List<Category> categoryList=[];
-   _categoryReference.once().then((DataSnapshot snap) {
-     var KEYS = snap.value.keys;
-     var DATA = snap.value;
+   await _categoryReference.once().then((DataSnapshot snap) {
+     var keys = snap.value.keys;
+     var data = snap.value;
 
      categoryList.clear();
-     for(var individualKey in KEYS){
+     for(var individualKey in keys){
        Category posts= new Category(
-         image: DATA[individualKey]['Image'],
-         name: DATA[individualKey]['Name'],
+         image: data[individualKey]['Image'],
+         name: data[individualKey]['Name'],
          keys:individualKey.toString(),
        );
        categoryList.add(posts);
      }
-
    });
    return categoryList;
  }
@@ -129,5 +129,36 @@ class FirebaseHelper{
 
     });
     return requestList;
+  }
+
+  Future<void> addOrder(String totalPrice, List<Food> orderedFoodList, String name, String address) async {
+    // getter user details
+    FirebaseUser user = await AuthMethods().getCurrentUser();
+    String uidtxt = user.uid;
+    String statustxt = "0";
+    String totaltxt = totalPrice.toString();
+
+    // creating model of list of ordered foods
+    Map aux = new Map<String,dynamic>();
+    orderedFoodList.forEach((food){
+      aux[food.keys] = food.toMap(food);
+    });
+
+    Request request = new Request(
+      address:address,
+      name:name,
+      uid:uidtxt,
+      status:statustxt,
+      total:totaltxt,
+      foodList:aux
+    );
+
+    // add order to database
+    await _ordersReference.child(request.uid).push().set(request.toMap(request)).then((value) async {
+      // delete cart data 
+      DatabaseSql databaseSql = DatabaseSql();
+      await databaseSql.openDatabaseSql();
+      await databaseSql.deleteAllData();
+    });
   }
 }

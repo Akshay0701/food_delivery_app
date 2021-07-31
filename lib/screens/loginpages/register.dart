@@ -14,34 +14,42 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
+import 'package:food_delivery_app/blocs/RegisterPageBloc.dart';
 import 'package:food_delivery_app/screens/homepage.dart';
 import 'package:food_delivery_app/screens/loginpages/login.dart';
 import 'package:food_delivery_app/utils/universal_variables.dart';
+import 'package:provider/provider.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends StatelessWidget {
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => RegisterPageBloc(),
+      child: RegisterPageContent()
+    );
+  }
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  AuthMethods _authMethods =AuthMethods();
+class RegisterPageContent extends StatefulWidget {
+  @override
+  _RegisterPageContentState createState() => _RegisterPageContentState();
+}
 
+class _RegisterPageContentState extends State<RegisterPageContent> {
+
+  RegisterPageBloc registerPageBloc;
 
   TextEditingController textNameController=TextEditingController();
   TextEditingController textPasswordController=TextEditingController();
   TextEditingController textPhoneController=TextEditingController();
+  
   final _formKey = GlobalKey<FormState>();
-
-  //loading
-  bool isLoginPressed = false;
 
   @override
   Widget build(BuildContext context) {
+    registerPageBloc = Provider.of<RegisterPageBloc>(context);
     return Scaffold(
       body: Container(
         color: UniversalVariables.whiteColor,
@@ -61,11 +69,8 @@ class _RegisterPageState extends State<RegisterPage> {
         FlutterLogo(size: 200.0,),
         SizedBox(height:20.0),
         TextFormField(
-          validator: (value) {
-            if (value.isEmpty&&EmailValidator.validate(value)) {
-              return 'Please enter valid email';
-            }
-            return null;
+          validator: (email) {
+            return registerPageBloc.validateEmail(email);
           },
           controller: textNameController,
           decoration: InputDecoration(
@@ -75,14 +80,11 @@ class _RegisterPageState extends State<RegisterPage> {
         TextFormField(
           maxLength: 10,
           inputFormatters: <TextInputFormatter>[
-            WhitelistingTextInputFormatter.digitsOnly,
+            FilteringTextInputFormatter.digitsOnly,
           ],
           keyboardType: TextInputType.number,
-          validator: (value) {
-            if (value.isEmpty&&value.length<6) {
-              return 'Invalid PhoneNo';
-            }
-            return null;
+          validator: (phone) {
+            return registerPageBloc.validatePhone(phone);
           },
           controller: textPhoneController,
           decoration: InputDecoration(
@@ -90,11 +92,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         TextFormField(
-          validator: (value) {
-            if (value.isEmpty&&value.length<6) {
-              return 'Password should atleast contain 6 character';
-            }
-            return null;
+          validator: (password) {
+            return registerPageBloc.validatePassword(password);
           },
           controller: textPasswordController,
           decoration: InputDecoration(
@@ -102,48 +101,28 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         SizedBox(height:20.0),
-        RaisedButton(
-          color: UniversalVariables.orangeAccentColor,
-          onPressed: ()=>validateForm(),
-          child: Text("Login",style:TextStyle(color:UniversalVariables.whiteColor,)),
+        TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(UniversalVariables.orangeColor),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),)
+            ),
+          ),
+          onPressed: () => registerPageBloc.validateFormAndRegister(_formKey, textNameController.text, textPasswordController.text, textPhoneController.text).then((_) => gotoHomePage()),
+          child: Text("Register",style:TextStyle(color:UniversalVariables.whiteColor,)),
         ),
-        isLoginPressed
+        registerPageBloc.isRegisterPressed
             ? Center(
             child: CircularProgressIndicator())
-            :Container(),
-            ],
+            : Container(),
+      ],
     );
   }
 
-  gotoLoginPage(){
+  gotoLoginPage() {
     Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
   }
-  gotoHomePage(){
+  
+  gotoHomePage() {
     Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
   }
-  validateForm()async{
-    setState(() {
-      isLoginPressed=true;
-    });
-    if(_formKey.currentState.validate()){
-
-      String userName=textNameController.text;
-      String phone=textPhoneController.text;
-      String password=textPasswordController.text;
-
-      FirebaseUser currentUser=await _authMethods.handleSignUp(phone,userName, password).then((FirebaseUser user) async{
-        await _authMethods.addDataToDb(user,userName,phone,password);
-        gotoHomePage();
-      }).catchError((e) => print(e));
-
-      setState(() {
-        isLoginPressed=false;
-      });
-
-      print(currentUser.email);
-
-
-    }
-  }
-
 }
