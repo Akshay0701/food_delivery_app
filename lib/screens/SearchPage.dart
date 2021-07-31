@@ -48,7 +48,6 @@ class _SearchPageContentState extends State<SearchPageContent> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       searchPageBloc.loadFoodList();
     });
-    
   }
 
   @override
@@ -127,5 +126,11 @@ class _SearchPageContentState extends State<SearchPageContent> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchCtrl.dispose();
   }
 }

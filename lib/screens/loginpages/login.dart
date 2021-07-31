@@ -39,8 +39,8 @@ class LoginPageContent extends StatefulWidget {
 
 class _LoginPageContentState extends State<LoginPageContent> {
 
-  TextEditingController textNameController=TextEditingController();
-  TextEditingController textPasswordController=TextEditingController();
+  TextEditingController textNameController = TextEditingController();
+  TextEditingController textPasswordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -111,5 +111,12 @@ class _LoginPageContentState extends State<LoginPageContent> {
 
   gotoRegisterPage() {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textNameController.dispose();
+    textPasswordController.dispose();
   }
 }

@@ -125,4 +125,12 @@ class _RegisterPageContentState extends State<RegisterPageContent> {
   gotoHomePage() {
     Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textNameController.dispose();
+    textPasswordController.dispose();
+    textPhoneController.dispose();
+  }
 }
