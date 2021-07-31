@@ -48,14 +48,12 @@ class Food{
   }
 
   Food.fromMap(Map<dynamic, dynamic> mapData) {
-    this.description =mapData['description'];
-    this.discount=mapData['discount'];
-    this.image=mapData['image'];
-    this.menuId=mapData['menuId'];
-    this.name=mapData['name'];
-    this.price=mapData['price'];
-    this.keys=mapData['keys'];
+    this.description = mapData['description'];
+    this.discount = mapData['discount'];
+    this.image = mapData['image'];
+    this.menuId = mapData['menuId'];
+    this.name = mapData['name'];
+    this.price = mapData['price'];
+    this.keys = mapData['keys'];
   }
-
-
 }
