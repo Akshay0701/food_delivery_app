@@ -21,7 +21,7 @@ class FoodTitleWidget extends StatelessWidget {
             pageBuilder: (_, __, ___) => FoodDetailPage(food:fooddata)));
     }
     return GestureDetector(
-      onTap: ()=>gotoFoodDetails(),
+      onTap: () => gotoFoodDetails(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
         child:Row(
@@ -41,15 +41,7 @@ class FoodTitleWidget extends StatelessWidget {
               runSpacing: 4.0, // gap between lines
               direction: Axis.vertical,
               children: [
-                Flexible(
-                  child: RichText(
-                    overflow: TextOverflow.ellipsis,
-                    strutStyle: StrutStyle(fontSize: 20.0),
-                    text: TextSpan(
-                        style: TextStyle(fontSize: 16.0,color: Colors.black54,fontWeight: FontWeight.bold),
-                        text: fooddata.name),
-                  ),
-                ),
+                Text("${fooddata.name}\$", overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold,color: Colors.black54),),
                 Row(
                   children: [
                     SizedBox(height: 10.0,),

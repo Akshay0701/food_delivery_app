@@ -60,7 +60,7 @@ class FirebaseHelper{
     List<Food>foodList = <Food>[];
     
     await _foodReference.once().then((DataSnapshot snap) {
-          var keys = snap.value.keys;
+        var keys = snap.value.keys;
         var data = snap.value;
         foodList.clear();
         for(var individualKey in keys){
@@ -111,18 +111,18 @@ class FirebaseHelper{
     DatabaseReference foodReference = _ordersReference.child(currentUser.uid);
 
     await foodReference.once().then((DataSnapshot snap) {
-      var KEYS = snap.value.keys;
-      var DATA = snap.value;
+      var keys = snap.value.keys;
+      var data = snap.value;
 
       requestList.clear();
-      for (var individualKey in KEYS) {
+      for (var individualKey in keys) {
         Request request =Request(
-          address: DATA[individualKey]['address'],
-          name:DATA[individualKey]['name'],
-          uid:DATA[individualKey]['uid'],
-          status:DATA[individualKey]['status'],
-          total:DATA[individualKey]['total'],
-          foodList:DATA[individualKey]['foodList'],
+          address:data[individualKey]['address'],
+          name:data[individualKey]['name'],
+          uid:data[individualKey]['uid'],
+          status:data[individualKey]['status'],
+          total:data[individualKey]['total'],
+          foodList:data[individualKey]['foodList'],
         );
         requestList.add(request);
       }

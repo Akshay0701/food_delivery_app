@@ -15,9 +15,7 @@
  */
 
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:food_delivery_app/resourese/auth_methods.dart';
 
 class RegisterPageBloc with ChangeNotifier {
