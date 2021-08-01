@@ -42,7 +42,7 @@ A new Flutter project
 
 Contribute
 ----------
-You can contribute to AnkiDroid by beta testing, translating, or submitting code. 
+You can contribute to food_delivery_app by beta testing or submitting code. 
 See the [contribution wiki page](https://github.com/Akshay0701/food_delivery_app/blob/master/COPYING.txt) for more info.
 
 License
