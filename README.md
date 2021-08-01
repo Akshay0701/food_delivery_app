@@ -2,6 +2,16 @@
 ![](banner.png)
 A new Flutter project
 
+<a href="https://github.com/Akshay0701/food_delivery_app/releases"><img src="https://img.shields.io/github/v/release/Akshay0701/food_delivery_app" alt="release"/></a>
+<a href="https://github.com/Akshay0701/food_delivery_app/issues"><img src="https://img.shields.io/github/commit-activity/m/Akshay0701/food_delivery_app" alt="commit-activity"/></a>
+<a href="https://github.com/Akshay0701/food_delivery_app/network/members"><img src="https://img.shields.io/github/forks/Akshay0701/food_delivery_app" alt="forks"/></a>
+<a href="https://github.com/Akshay0701/food_delivery_app/stargazers"><img src="https://img.shields.io/github/stars/Akshay0701/food_delivery_app" alt="stars"/></a>
+<a href="https://github.com/Akshay0701/food_delivery_app/graphs/contributors"><img src="https://img.shields.io/github/contributors/Akshay0701/food_delivery_app" alt="contributors"/></a>
+<a href="https://github.com/Akshay0701/food_delivery_app/actions"><img src="https://img.shields.io/github/checks-status/Akshay0701/food_delivery_app/master?label=build" alt="build"/></a>
+<a href="https://github.com/Akshay0701/food_delivery_app/blob/master/COPYING"><img src="https://img.shields.io/github/license/Akshay0701/food_delivery_app" alt="license"/></a>
+</p>
+
+
 ## Application features 
 
 - Simple UI for food delivery app's
@@ -29,4 +39,13 @@ A new Flutter project
 # Firebase Database 
 
 <img src="https://cdn-media-1.freecodecamp.org/images/0*CPTNvq87xG-sUGdx.png" height="300" width="400">
+
+Contribute
+----------
+You can contribute to AnkiDroid by beta testing, translating, or submitting code. 
+See the [contribution wiki page](https://github.com/Akshay0701/food_delivery_app/blob/master/COPYING.txt) for more info.
+
+License
+-------
+[GPL-3.0 License](https://github.com/ankidroid/Anki-Android/blob/master/COPYING)  
 
