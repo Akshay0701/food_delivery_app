@@ -248,6 +248,37 @@ class _HomePageContentState extends State<HomePageContent> {
     );
   }
 
+
+  createDialog() {
+    return Container(
+      padding: EdgeInsets.all(5.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            title: Text(widget.request.name,style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold,),),
+            subtitle:Text(widget.request.address,style: TextStyle(color: Colors.black38,fontWeight: FontWeight.normal,),) ,
+            leading: CircleAvatar(backgroundImage: NetworkImage("https://www.pngitem.com/pimgs/m/252-2523515_delivery-clipart-delivery-order-frames-illustrations.png"),),
+            trailing:Text(widget.request.total+" Rs.",style: TextStyle(color: UniversalVariables.orangeColor,fontSize: 20.0, fontWeight: FontWeight.bold,),) ,
+          ),
+
+          createSatusBar(),
+          Container(
+            padding: EdgeInsets.only(left: 20.0,top: 0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Your Food",style: TextStyle(color: Colors.black45,fontSize: 16.0,fontWeight: FontWeight.bold,),),
+                createListOfFood(),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+  }
+
   createSearchBar(){
     return  Container(
       height: MediaQuery.of(context).size.height*0.08,
