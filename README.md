@@ -1,7 +1,8 @@
 # Food Delivery App
 ![](banner.png)
 
-The food ordering & delivery application is designed based on the real-life scenario. Anyone can use this code for their own purpose. If you are interested please make your contribution to the code.
+This is a food ordering & delivery application built with a flutter framework and firebase real-time database. 
+Anyone can use this code for their own purpose. If you are interested please make your contribution to the code.
 
 <a href="https://github.com/Akshay0701/food_delivery_app/releases"><img src="https://img.shields.io/github/v/release/Akshay0701/food_delivery_app" alt="release"/></a>
 <a href="https://github.com/Akshay0701/food_delivery_app/issues"><img src="https://img.shields.io/github/commit-activity/m/Akshay0701/food_delivery_app" alt="commit-activity"/></a>
