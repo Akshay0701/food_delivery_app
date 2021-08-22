@@ -1,6 +1,8 @@
 # Food Delivery App
 ![](banner.png)
-A new Flutter project
+
+This is a food ordering & delivery application built with a flutter framework and firebase real-time database. 
+Anyone can use this code for their own purpose. If you are interested please make your contribution to the code.
 
 <a href="https://github.com/Akshay0701/food_delivery_app/releases"><img src="https://img.shields.io/github/v/release/Akshay0701/food_delivery_app" alt="release"/></a>
 <a href="https://github.com/Akshay0701/food_delivery_app/issues"><img src="https://img.shields.io/github/commit-activity/m/Akshay0701/food_delivery_app" alt="commit-activity"/></a>
@@ -16,17 +18,17 @@ A new Flutter project
 
 - Simple UI for food delivery app's
 
-- use SQLite for store order data in local database 
+- Use SQLite to store order data in a local database 
 
-- used firebase realtime database for syncing data to server side 
+- Used firebase real-time database for syncing data to server-side 
 
-- can add one or more food in the cart section 
+- Can add one or more food in the cart section 
 
-- automatic total bill will generate.
+- Automatically total bill will generate.
 
-- search different food/types
+- Search different food/types
 
-- view previous ordered food's from your account
+- View previous ordered food's from your account
 
 - Google/mail auth login integrated 
 
@@ -48,4 +50,3 @@ See the [contribution wiki page](https://github.com/Akshay0701/food_delivery_app
 License
 -------
 [GPL-3.0 License](https://github.com/ankidroid/Anki-Android/blob/master/COPYING)  
-
