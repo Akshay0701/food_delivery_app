@@ -22,7 +22,6 @@ import 'package:food_delivery_app/resources/FirebaseHelper.dart';
 import 'package:food_delivery_app/screens/HomePage.dart';
 
 class CartPageBloc with ChangeNotifier {
-  
   List<Food> foodList=[];
   int totalPrice = 0;
 
@@ -34,7 +33,7 @@ class CartPageBloc with ChangeNotifier {
   getDatabaseValue() async{
     databaseSql = DatabaseSql();
     await databaseSql.openDatabaseSql();
-    foodList= await databaseSql.getData();
+    foodList = await databaseSql.getData();
     //calculating total price
     foodList.forEach((food) {
       int foodItemPrice = int.parse(food.price);
@@ -46,11 +45,13 @@ class CartPageBloc with ChangeNotifier {
    // ignore: non_constant_identifier_names
   orderPlaceToFirebase(String name, String address) async {
     mFirebaseHelper.addOrder(totalPrice.toString(), foodList, name, address).then((isAdded) {  
-        notifyListeners();
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => HomePage())); 
+      notifyListeners();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomePage()
+        )
+      );
     });
   }
 }

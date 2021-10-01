@@ -19,9 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/resources/AuthMethods.dart';
 
 class RegisterPageBloc with ChangeNotifier {
-
   AuthMethods mAuthMethods = AuthMethods();
-
   bool isRegisterPressed = false;
 
   String validateEmail(String email) {
@@ -32,8 +30,8 @@ class RegisterPageBloc with ChangeNotifier {
   } 
 
   String validatePassword(String password) {
-    if (password.isEmpty && password.length<6) {
-      return 'Password should atleast contain 6 character';
+    if (password.isEmpty && password.length < 6) {
+      return 'Password should at least contain 6 character';
     }
     return null;
   } 
@@ -46,12 +44,12 @@ class RegisterPageBloc with ChangeNotifier {
   } 
 
   Future<void> validateFormAndRegister(GlobalKey<FormState> formKey, String userName, String password, String phone) async {
-      isRegisterPressed = true;
+    isRegisterPressed = true;
+    notifyListeners();
+    if (formKey.currentState.validate()){
+      await mAuthMethods.handleSignUp(phone, userName, password);
+      isRegisterPressed = false;
       notifyListeners();
-      if(formKey.currentState.validate()){
-          await mAuthMethods.handleSignUp(phone, userName, password);
-          isRegisterPressed = false;
-          notifyListeners();
-      }
+    }
   }
 }

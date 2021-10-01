@@ -19,9 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/resources/AuthMethods.dart';
 
 class LoginPageBloc with ChangeNotifier {
-
   AuthMethods mAuthMethods = AuthMethods();
-
   bool isLoginPressed = false;
 
   String validateEmail(String email) {
@@ -32,19 +30,19 @@ class LoginPageBloc with ChangeNotifier {
   } 
 
   String validatePassword(String password) {
-    if (password.isEmpty && password.length<6) {
-      return 'Password should atleast contain 6 character';
+    if (password.isEmpty && password.length < 6) {
+      return 'Password should at least contain 6 character';
     }
     return null;
   } 
 
   Future<void> validateFormAndLogin(GlobalKey<FormState> formKey, String userName, String password) async {
-      isLoginPressed=true;
+    isLoginPressed = true;
+    notifyListeners();
+    if (formKey.currentState.validate()) {
+      await mAuthMethods.handleSignInEmail(userName, password);
+      isLoginPressed = false;
       notifyListeners();
-      if(formKey.currentState.validate()){
-          await mAuthMethods.handleSignInEmail(userName, password);
-          isLoginPressed=false;
-          notifyListeners();
-      }
+    }
   }
 }

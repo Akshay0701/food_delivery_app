@@ -58,49 +58,47 @@ class _SearchPageContentState extends State<SearchPageContent> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: UniversalVariables.whiteLightColor,
+        backgroundColor: UniversalVariables.whiteLightColor
       ),
-     body: SafeArea(
-       child: Container(
-         child: Column(
-           children: [
-             createSearchBar(),
-             Expanded(
-               child: Container(
-                color: Colors.white10,
-                 child: buildSuggestions(searchPageBloc.query),
-               ),
-             )
-           ],
-         ),
-       ),
-     ),
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: [
+              createSearchBar(),
+              Expanded(
+                child: Container(
+                  color: Colors.white10,
+                  child: buildSuggestions(searchPageBloc.query)
+                )
+              )
+            ]
+          )
+        )
+      )
     );
   }
 
-  buildSuggestions(String query){
-     final List<Food> suggestionList = searchPageBloc.searchFoodsFromList(query);
-     return  Container(
-         child: suggestionList.length == -1 ? Center(child: Center(child: CircularProgressIndicator()))
-             : ListView.builder(
-             scrollDirection: Axis.vertical,
-             itemCount: suggestionList.length,
-             itemBuilder: (_,index){
-               return FoodTitleWidget(
-                 searchPageBloc.searchedFoodList[index],
-               );
-             }
-         ),
-     );
- }
-
+  buildSuggestions(String query) {
+    final List<Food> suggestionList = searchPageBloc.searchFoodsFromList(query);
+    return Container(
+      child: suggestionList.length == -1 ? Center(child: Center(child: CircularProgressIndicator())) : ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: suggestionList.length,
+        itemBuilder: (_, index) {
+          return FoodTitleWidget(
+            searchPageBloc.searchedFoodList[index]
+          );
+        }
+      )
+    );
+  }
 
   createSearchBar(){
     return Container(
       margin: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-          color:  UniversalVariables.whiteColor,
-          borderRadius: BorderRadius.all(Radius.circular(10.0))
+        color: UniversalVariables.whiteColor,
+        borderRadius: BorderRadius.all(Radius.circular(10.0))
       ),
       child: Row(
         children: <Widget>[
@@ -114,18 +112,18 @@ class _SearchPageContentState extends State<SearchPageContent> {
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.go,
               decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding:
-                  EdgeInsets.symmetric(horizontal: 15),
-                  hintText: "Search..."),
-            ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                hintText: 'Search...'
+              )
+            )
           ),
           Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: IconButton(icon: Icon(Icons.search,color:  UniversalVariables.orangeColor,), onPressed:()=> null),
-          ),
-        ],
-      ),
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(icon: Icon(Icons.search, color: UniversalVariables.orangeColor), onPressed: () => null)
+          )
+        ]
+      )
     );
   }
 }

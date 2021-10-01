@@ -22,7 +22,7 @@ class UniversalVariables {
   static final Color blackColor = Color(0xff19191b);
   static final Color whiteColor = Colors.white;
   static final Color whiteLightColor = Colors.white10;
-   static final Color amberColor =Colors.amber;
+  static final Color amberColor =Colors.amber;
 
 
   static final Color greyColor = Color(0xff8f8f8f);
@@ -38,7 +38,8 @@ class UniversalVariables {
   static final Color receiverColor = Color(0xff1e2225);
 
   static final Gradient fabGradient = LinearGradient(
-      colors: [gradientColorStart, gradientColorEnd],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight);
+    colors: [gradientColorStart, gradientColorEnd],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight
+  );
 }

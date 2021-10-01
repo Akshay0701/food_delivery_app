@@ -19,13 +19,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:food_delivery_app/models/User.dart' as FoodUser;
 
 class AuthMethods {
-
   // Firebase auth, will use to get user info and registration and signing 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Firebase Database, will use to get reference.
   static final FirebaseDatabase _database = FirebaseDatabase.instance;
-  static final DatabaseReference _userReference = _database.reference().child("Users");
+  static final DatabaseReference _userReference = _database.reference().child('Users');
 
   // current user getter
   Future<User> getCurrentUser() async {
@@ -35,8 +34,8 @@ class AuthMethods {
   }
 
   // gets auth state of user through out the life cycle of the app
-  Stream<FirebaseUser> get onAuthStateChanged {
-    return _auth.onAuthStateChanged;
+  Stream<User> get onAuthStateChanged {
+    return _auth.authStateChanges();
   }
 
   //sign in current user with email and password

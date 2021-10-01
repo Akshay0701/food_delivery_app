@@ -23,6 +23,7 @@ import 'package:food_delivery_app/resources/AuthMethods.dart';
 import 'package:food_delivery_app/resources/FirebaseHelper.dart';
 import 'package:food_delivery_app/utils/UniversalVariables.dart';
 import 'package:food_delivery_app/widgets/OrderWidget.dart';
+
 class MyOrderPage extends StatefulWidget {
   @override
   _MyOrderPageState createState() => _MyOrderPageState();
@@ -56,25 +57,26 @@ class _MyOrderPageState extends State<MyOrderPage> {
         elevation: 0.0
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, left: 18.0),
-              child: Text(
-                "My Orders",
-                style: TextStyle(
-                  color: UniversalVariables.orangeAccentColor,
-                  fontSize: 40.0,
-                  fontWeight: FontWeight.bold
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0, left: 18.0),
+                child: Text('My Orders',
+                  style: TextStyle(
+                    color: UniversalVariables.orangeAccentColor,
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold
+                  )
                 )
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 0.0, left: 20.0),
+                child: createListOfOrder()
               )
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 0.0,left: 20.0),
-              child: createListOfOrder()
-            )
-          ]
+            ]
+          )
         )
       )
     );

@@ -14,7 +14,6 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 class Food{
   String description;
   String discount;
@@ -23,7 +22,6 @@ class Food{
   String name;
   String price;
   String keys;
-
 
   Food({
     this.description,

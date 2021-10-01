@@ -21,8 +21,8 @@ import 'package:food_delivery_app/screens/CartPage.dart';
 import 'package:food_delivery_app/utils/UniversalVariables.dart';
 
 class CartItems extends StatefulWidget {
-  final Food fooddata;
-  CartItems(this.fooddata);
+  final Food foodData;
+  CartItems(this.foodData);
 
   @override
   _CartItemsState createState() => _CartItemsState();
@@ -34,37 +34,43 @@ class _CartItemsState extends State<CartItems> {
     return GestureDetector(
       child: Container(
         color: UniversalVariables.whiteLightColor,
-        padding: EdgeInsets.symmetric(horizontal: 0.0,vertical: 10.0),
-        child:ListTile(
-          leading: Container(child: ClipRRect(borderRadius: BorderRadius.circular(5.0),
-          child: Image.network(widget.fooddata.image,fit: BoxFit.cover,)),height: 80.0,width: 80.0,),
-          title: Text(widget.fooddata.name,style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,color: Colors.black),),
-          subtitle: Text("${widget.fooddata.price}\$",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black54),),
-          trailing: IconButton(icon:  Icon(Icons.delete,size: 20.0,), onPressed:()=>deleteFoodFromCart(widget.fooddata.keys) ,),
+        padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
+        child: ListTile(
+          leading: Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5.0),
+              child: Image.network(widget.foodData.image, fit: BoxFit.cover)
+            ),
+            height: 80.0,
+            width: 80.0
+          ),
+          title: Text(widget.foodData.name, style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.black)),
+          subtitle: Text('${widget.foodData.price}\$', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54)),
+          trailing: IconButton(icon: Icon(Icons.delete, size: 20.0), onPressed: () => deleteFoodFromCart(widget.foodData.keys))
         )
-      ),
+      )
     );
   }
 
   deleteFoodFromCart(String keys) async{
-    DatabaseSql databaseSql=DatabaseSql();
+    DatabaseSql databaseSql = DatabaseSql();
     await databaseSql.openDatabaseSql();
     bool isDeleted = await databaseSql.deleteData(keys);
-    if(isDeleted){
+    if (isDeleted){
       final snackBar= SnackBar(
         content: Text('Removed Food Item'),
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
-            // todo code to undo the change.
-          },
-        ),
+            // TODO : Implement function to undo the removal
+          }
+        )
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => CartPage()));
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => CartPage())
+      );
     }
   }
 }

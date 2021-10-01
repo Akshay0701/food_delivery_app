@@ -23,36 +23,35 @@ import 'package:food_delivery_app/resources/AuthMethods.dart';
 import 'package:food_delivery_app/resources/DatabaseSQL.dart';
 
 class FirebaseHelper{
-
   // Firebase Database, will use to get reference.
   static final FirebaseDatabase _database = FirebaseDatabase.instance;
 
-  static final DatabaseReference _ordersReference = _database.reference().child("Orders");
-  static final DatabaseReference _categoryReference = _database.reference().child("Category");
-  static final DatabaseReference _foodReference = _database.reference().child("Foods");
+  static final DatabaseReference _ordersReference = _database.reference().child('Orders');
+  static final DatabaseReference _categoryReference = _database.reference().child('Category');
+  static final DatabaseReference _foodReference = _database.reference().child('Foods');
 
   // fetch all foods list from food reference
   Future<List<Food>> fetchAllFood() async {
     List<Food>foodList = <Food>[];
-    DatabaseReference foodReference= _database.reference().child("Foods");
+    DatabaseReference foodReference= _database.reference().child('Foods');
     await foodReference.once().then((DataSnapshot snap) {
-        var keys = snap.value.keys;
-        var data = snap.value;
-        foodList.clear();
-        for(var individualKey in keys){
-          Food food = new Food(
-              description: data[individualKey]['description'],
-              discount: data[individualKey]['discount'],
-              image:data[individualKey]['image'],
-              menuId:data[individualKey]['menuId'],
-              name:data[individualKey]['name'],
-              price:data[individualKey]['price'],
-              keys: individualKey.toString()
-          );
-          foodList.add(food);
-        }
-      });
-      return foodList;
+      var keys = snap.value.keys;
+      var data = snap.value;
+      foodList.clear();
+      for(var individualKey in keys){
+        Food food = new Food(
+          description: data[individualKey]['description'],
+          discount: data[individualKey]['discount'],
+          image :data[individualKey]['image'],
+          menuId: data[individualKey]['menuId'],
+          name: data[individualKey]['name'],
+          price: data[individualKey]['price'],
+          keys: individualKey.toString()
+        );
+        foodList.add(food);
+      }
+    });
+    return foodList;
   }
 
   // fetch food list with query string 
@@ -60,45 +59,44 @@ class FirebaseHelper{
     List<Food>foodList = <Food>[];
     
     await _foodReference.once().then((DataSnapshot snap) {
-        var keys = snap.value.keys;
-        var data = snap.value;
-        foodList.clear();
-        for(var individualKey in keys){
-          Food food = new Food(
-              description: data[individualKey]['description'],
-              discount: data[individualKey]['discount'],
-              image: data[individualKey]['image'],
-              menuId: data[individualKey]['menuId'],
-              name: data[individualKey]['name'],
-              price: data[individualKey]['price'],
-              keys: individualKey.toString()
-          );
-          if(food.menuId == queryStr){
-            foodList.add(food);
-          }
+      var keys = snap.value.keys;
+      var data = snap.value;
+      foodList.clear();
+      for (var individualKey in keys) {
+        Food food = new Food(
+          description: data[individualKey]['description'],
+          discount: data[individualKey]['discount'],
+          image: data[individualKey]['image'],
+          menuId: data[individualKey]['menuId'],
+          name: data[individualKey]['name'],
+          price: data[individualKey]['price'],
+          keys: individualKey.toString()
+        );
+        if (food.menuId == queryStr) {
+          foodList.add(food);
         }
-      });
-      return foodList;
+      }
+    });
+    return foodList;
   }
 
-
-  Future<bool> placeOrder(Request request)async{
+  Future<bool> placeOrder(Request request) async {
     await _ordersReference.child(request.uid).push().set(request.toMap(request));
     return true;
   }
 
  Future<List<Category>> fetchCategory() async {
-   List<Category> categoryList=[];
+   List<Category> categoryList = [];
    await _categoryReference.once().then((DataSnapshot snap) {
      var keys = snap.value.keys;
      var data = snap.value;
 
      categoryList.clear();
-     for(var individualKey in keys){
+     for (var individualKey in keys) {
        Category posts= new Category(
          image: data[individualKey]['Image'],
          name: data[individualKey]['Name'],
-         keys:individualKey.toString(),
+         keys: individualKey.toString(),
        );
        categoryList.add(posts);
      }
@@ -106,8 +104,8 @@ class FirebaseHelper{
    return categoryList;
  }
 
-  Future<List<Request>> fetchOrders(User currentUser)async{
-    List<Request> requestList=[];
+  Future<List<Request>> fetchOrders(User currentUser) async {
+    List<Request> requestList = [];
     DatabaseReference foodReference = _ordersReference.child(currentUser.uid);
 
     await foodReference.once().then((DataSnapshot snap) {
@@ -116,17 +114,16 @@ class FirebaseHelper{
 
       requestList.clear();
       for (var individualKey in keys) {
-        Request request =Request(
-          address:data[individualKey]['address'],
-          name:data[individualKey]['name'],
-          uid:data[individualKey]['uid'],
-          status:data[individualKey]['status'],
-          total:data[individualKey]['total'],
-          foodList:data[individualKey]['foodList'],
+        Request request = Request(
+          address: data[individualKey]['address'],
+          name: data[individualKey]['name'],
+          uid: data[individualKey]['uid'],
+          status: data[individualKey]['status'],
+          total: data[individualKey]['total'],
+          foodList: data[individualKey]['foodList'],
         );
         requestList.add(request);
       }
-
     });
     return requestList;
   }
@@ -134,9 +131,9 @@ class FirebaseHelper{
   Future<void> addOrder(String totalPrice, List<Food> orderedFoodList, String name, String address) async {
     // getter user details
     User user = await AuthMethods().getCurrentUser();
-    String uidtxt = user.uid;
-    String statustxt = "0";
-    String totaltxt = totalPrice.toString();
+    String uidText = user.uid;
+    String statusText = '0';
+    String totalText = totalPrice.toString();
 
     // creating model of list of ordered foods
     Map aux = new Map<String,dynamic>();
@@ -145,12 +142,12 @@ class FirebaseHelper{
     });
 
     Request request = new Request(
-      address:address,
-      name:name,
-      uid:uidtxt,
-      status:statustxt,
-      total:totaltxt,
-      foodList:aux
+      address: address,
+      name: name,
+      uid: uidText,
+      status: statusText,
+      total: totalText,
+      foodList: aux
     );
 
     // add order to database

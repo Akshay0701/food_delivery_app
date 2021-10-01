@@ -20,24 +20,20 @@ import 'package:food_delivery_app/models/Food.dart';
 import 'package:food_delivery_app/resources/FirebaseHelper.dart';
 
 class SearchPageBloc with ChangeNotifier {
-
   FirebaseHelper mFirebaseHelper = FirebaseHelper();
-
   List<Food> searchedFoodList = [];
 
   // searched text by user
-  String query = "";
+  String query = '';
 
   List<Food> searchFoodsFromList(String query){
-     final List<Food> suggestionList = query.isEmpty
-         ?searchedFoodList // show all foods
-         :searchedFoodList.where((Food food) {
-           String _foodName= food.name.toLowerCase();
-           String _query=query.toLowerCase();
+    final List<Food> suggestionList = query.isEmpty ? searchedFoodList : searchedFoodList.where((Food food) {
+      String _foodName = food.name.toLowerCase();
+      String _query = query.toLowerCase();
 
-           bool isMatch=_foodName.contains(_query);
-           return (isMatch);
-          }).toList();
+      bool isMatch = _foodName.contains(_query);
+      return (isMatch);
+    }).toList();
     return suggestionList;
   }
 

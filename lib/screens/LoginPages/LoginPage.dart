@@ -17,10 +17,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/LoginPageBloc.dart';
 import 'package:food_delivery_app/screens/HomePage.dart';
-import 'package:food_delivery_app/screens/loginpages/RegisterPage.dart';
+import 'package:food_delivery_app/screens/LoginPages/RegisterPage.dart';
 import 'package:food_delivery_app/utils/UniversalVariables.dart';
 import 'package:provider/provider.dart';
-
 
 class LoginPage extends StatelessWidget {
   @override
@@ -38,9 +37,8 @@ class LoginPageContent extends StatefulWidget {
 }
 
 class _LoginPageContentState extends State<LoginPageContent> {
-
-  TextEditingController textNameController=TextEditingController();
-  TextEditingController textPasswordController=TextEditingController();
+  TextEditingController textNameController = TextEditingController();
+  TextEditingController textPasswordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -52,19 +50,18 @@ class _LoginPageContentState extends State<LoginPageContent> {
     return Scaffold(
       body: Container(
         color: UniversalVariables.whiteColor,
-        padding: EdgeInsets.only(top: 20.0,left: 20.0,right: 20.0),
+        padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
         child: Form(
           key: _formKey,
-          child: buildForm(),
-        ),
-      ),
+          child: buildForm()
+        )
+      )
     );
   }
 
-
   buildForm(){
     return Column(
-      children:[
+      children: [
         SizedBox(height:20.0),
         Hero(
           tag: 'hero',
@@ -74,61 +71,66 @@ class _LoginPageContentState extends State<LoginPageContent> {
           child: Image.asset('assets/logo.jpg'),
           ),
         ),
-        SizedBox(height:20.0),
+        SizedBox(height: 20.0),
         TextFormField(
-            validator: (email) {
-              return loginPageBloc.validateEmail(email);
-            },
-            controller: textNameController,
-            decoration: InputDecoration(
-              hintText: 'Email',
-              prefixIcon: Icon(Icons.email),
-              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
+          validator: (email) {
+            return loginPageBloc.validateEmail(email);
+          },
+          controller: textNameController,
+          decoration: InputDecoration(
+            hintText: 'Email',
+            prefixIcon: Icon(Icons.email),
+            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
+          )
+        ),
+        SizedBox(
+          height: 10.0
+        ),
         TextFormField(
           validator: (password) {
-             return loginPageBloc.validateEmail(password);
+            return loginPageBloc.validateEmail(password);
           },
           controller: textPasswordController,
           decoration: InputDecoration(
             hintText: 'Password',
             prefixIcon: Icon(Icons.password_outlined),
             contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
           ),
         ),
         SizedBox(height:50.0),
         SizedBox(
-            width: double.infinity,
-            child: TextButton(
+          width: double.infinity,
+          child: TextButton(
             style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(UniversalVariables.orangeColor),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),)
-            ),),
+              backgroundColor: MaterialStateProperty.all(UniversalVariables.orangeColor),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+            ),
             onPressed: () => loginPageBloc.validateFormAndLogin(_formKey, textNameController.text, textPasswordController.text).then((_) => gotoHomePage()),
-            child: Text("Login",style:TextStyle(color: UniversalVariables.whiteColor,fontSize: 24)),
-          ) ,
+            child: Text('Login', style: TextStyle(color: UniversalVariables.whiteColor, fontSize: 24.0))
+          )
         ),
-        loginPageBloc.isLoginPressed
-        ? Center(
-        child: CircularProgressIndicator())
-        :Container(),
-      TextButton.icon(onPressed:()=> gotoRegisterPage(), icon: Icon(Icons.person_add), label: Text("New User ? Click Here..",style:TextStyle(color: Colors.black45, fontWeight: FontWeight.bold)),)
-      ],
+        loginPageBloc.isLoginPressed ? Center(child: CircularProgressIndicator()) : Container(),
+        TextButton.icon(
+          onPressed: () => gotoRegisterPage(),
+          icon: Icon(Icons.person_add),
+          label: Text('New User ? Click Here..',
+            style: TextStyle(
+              color: Colors.black45,
+              fontWeight: FontWeight.bold
+            )
+          )
+        )
+      ]
     );
   }
 
   gotoHomePage() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   gotoRegisterPage() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterPage()));
   }
 }
