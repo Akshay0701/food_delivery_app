@@ -19,8 +19,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:food_delivery_app/models/Category.dart';
 import 'package:food_delivery_app/models/Food.dart';
 import 'package:food_delivery_app/models/Request.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
-import 'package:food_delivery_app/resourese/databaseSQL.dart';
+import 'package:food_delivery_app/resources/AuthMethods.dart';
+import 'package:food_delivery_app/resources/DatabaseSQL.dart';
 
 class FirebaseHelper{
 
@@ -106,7 +106,7 @@ class FirebaseHelper{
    return categoryList;
  }
 
-  Future<List<Request>> fetchOrders(FirebaseUser currentUser)async{
+  Future<List<Request>> fetchOrders(User currentUser)async{
     List<Request> requestList=[];
     DatabaseReference foodReference = _ordersReference.child(currentUser.uid);
 
@@ -133,7 +133,7 @@ class FirebaseHelper{
 
   Future<void> addOrder(String totalPrice, List<Food> orderedFoodList, String name, String address) async {
     // getter user details
-    FirebaseUser user = await AuthMethods().getCurrentUser();
+    User user = await AuthMethods().getCurrentUser();
     String uidtxt = user.uid;
     String statustxt = "0";
     String totaltxt = totalPrice.toString();

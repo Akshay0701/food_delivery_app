@@ -17,8 +17,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:food_delivery_app/blocs/CartPageBloc.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
-import 'package:food_delivery_app/widgets/cartitemswidget.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
+import 'package:food_delivery_app/widgets/CartItemWidget.dart';
 import 'package:provider/provider.dart';
 
 class CartPage extends StatelessWidget {

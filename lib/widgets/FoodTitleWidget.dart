@@ -3,22 +3,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Food.dart';
 import 'package:food_delivery_app/screens/FoodDetailPage.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
 
 
 class FoodTitleWidget extends StatelessWidget {
-  final Food fooddata;
-  FoodTitleWidget(this.fooddata);
+  final Food foodData;
+  FoodTitleWidget(this.foodData);
   @override
   Widget build(BuildContext context) {
     var random = new Random();
     gotoFoodDetails(){
-      // Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodDetailPage(fooddata)));
+      // Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodDetailPage(foodData)));
       Navigator.push(
         context,
         PageRouteBuilder(
             transitionDuration: Duration(milliseconds: 500),
-            pageBuilder: (_, __, ___) => FoodDetailPage(food:fooddata)));
+            pageBuilder: (_, __, ___) => FoodDetailPage(food:foodData)));
     }
     return GestureDetector(
       onTap: () => gotoFoodDetails(),
@@ -31,8 +31,8 @@ class FoodTitleWidget extends StatelessWidget {
               width: 120.0,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
-                child: Hero(tag: "avatar_${fooddata.keys.toString()}",
-                child: Image.network(fooddata.image,fit: BoxFit.cover,)),
+                child: Hero(tag: "avatar_${foodData.keys.toString()}",
+                child: Image.network(foodData.image,fit: BoxFit.cover,)),
               ),
             ),
             SizedBox(width: 10.0,),
@@ -41,7 +41,7 @@ class FoodTitleWidget extends StatelessWidget {
               runSpacing: 4.0, // gap between lines
               direction: Axis.vertical,
               children: [
-                Text("${fooddata.name}\$", overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold,color: Colors.black54),),
+                Text("${foodData.name}\$", overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold,color: Colors.black54),),
                 Row(
                   children: [
                     SizedBox(height: 10.0,),
@@ -51,7 +51,7 @@ class FoodTitleWidget extends StatelessWidget {
                     Text("Cafe Western Food",overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.black45),),
                   ],
                 ),
-                Text("${fooddata.price}\$",style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,color: Colors.black54),),
+                Text("${foodData.price}\$",style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,color: Colors.black54),),
               ],
             )
           ],

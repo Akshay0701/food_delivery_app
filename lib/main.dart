@@ -15,13 +15,15 @@
  */
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
-import 'package:food_delivery_app/screens/homepage.dart';
-import 'package:food_delivery_app/screens/loginpages/login.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
+import 'package:food_delivery_app/resources/AuthMethods.dart';
+import 'package:food_delivery_app/screens/HomePage.dart';
+import 'package:food_delivery_app/screens/LoginPages/LoginPage.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -43,15 +45,35 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: UniversalVariables.orangeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: StreamBuilder(
-        stream: _authMethods.onAuthStateChanged,
-        builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
-          if (snapshot.hasData) {
-            return HomePage();
-          } else {
-            return LoginPage();
+      home: FutureBuilder<FirebaseApp>(
+        future: Firebase.initializeApp(),
+        builder: (context, appSnapshot) {
+          // Check for errors
+          if (appSnapshot.hasError) {
+            return Center(
+              child: Text('Something went wrong during Firebase Initialization!'),
+            );
           }
-        },
+
+          // Once complete, show your application
+          if (appSnapshot.connectionState == ConnectionState.done) {
+            return FutureBuilder<User>(
+              future: _authMethods.getCurrentUser(),
+              builder: (context, AsyncSnapshot<User> userSnapshot) {
+                if (userSnapshot.hasData) {
+                  return HomePage();
+                } else {
+                  return LoginPage();
+                }
+              },
+            );
+          }
+
+          // Otherwise, show something whilst waiting for initialization to complete
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       ),
     );
   }

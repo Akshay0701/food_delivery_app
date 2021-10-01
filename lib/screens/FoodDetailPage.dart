@@ -20,8 +20,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:food_delivery_app/blocs/FoodDetailPageBloc.dart';
 import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
-import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
+import 'package:food_delivery_app/widgets/FoodTitleWidget.dart';
 import 'package:provider/provider.dart';
 
 class FoodDetailPage extends StatelessWidget {
@@ -37,8 +37,8 @@ class FoodDetailPage extends StatelessWidget {
 }
 
 class FoodDetailPageContent extends StatefulWidget {
-  final Food fooddata;
-  FoodDetailPageContent(this.fooddata);
+  final Food foodData;
+  FoodDetailPageContent(this.foodData);
   @override
   _FoodDetailPageContentState createState() => _FoodDetailPageContentState();
 }
@@ -48,7 +48,7 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
   FoodDetailPageBloc foodDetailPageBloc;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  // sample discription for food details
+  // sample description for food details
   String sampleDescription = "The existence of the Positioned forces the Container to the left, instead of centering. Removing the Positioned, however, puts the Container in the middle-center";
 
 
@@ -80,39 +80,42 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
         child: Container(
           child: Column(
             children: [
-                Hero(tag:"avatar_${widget.fooddata.keys.toString()}",
+              Hero(
+                tag: "avatar_${widget.foodData.keys.toString()}",
                 child: Container(
-                padding: EdgeInsets.all(0.0),
-                child: Stack(
-                  children: [
-                   Container(
+                  padding: EdgeInsets.all(0.0),
+                  child: Stack(
+                    children: [
+                      Container(
                         height: 60.0,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(0.0),
-                              bottomRight: Radius.circular(80.0)
+                            bottomLeft: Radius.circular(0.0),
+                            bottomRight: Radius.circular(80.0)
                           ),
-                          gradient: LinearGradient(colors: [Colors.black45,Colors.transparent],begin: Alignment.bottomCenter,end: Alignment.topCenter
-                          ),),
+                          gradient: LinearGradient(colors: [Colors.black45,Colors.transparent],begin: Alignment.bottomCenter,end: Alignment.topCenter),
                         ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Material(color:Colors.transparent, 
-                              child: Text(foodDetailPageBloc.rating + " ★", style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold,color: UniversalVariables.whiteColor),)
-                            ),
-                    ),
-                  ],),
-                alignment: Alignment.bottomLeft,
-                height: MediaQuery.of(context).size.height*0.4,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                      ),
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Material(color:Colors.transparent,
+                         child: Text(foodDetailPageBloc.rating + " ★", style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold,color: UniversalVariables.whiteColor),)
+                       ),
+                     ),
+                    ],
+                  ),
+                  alignment: Alignment.bottomLeft,
+                  height: MediaQuery.of(context).size.height*0.4,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(0.0),
                       bottomRight: Radius.circular(80.0)
+                    ),
+                    image: DecorationImage(image: NetworkImage(widget.foodData.image), fit: BoxFit.cover),
                   ),
-                  image:DecorationImage(image: NetworkImage(widget.fooddata.image),fit: BoxFit.cover),
-                ),
-              )),
+                )
+              ),
               createdetails(),
               createPopularFoodList(),
             ],
@@ -130,14 +133,14 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SizedBox(height: 10.0,),
-          Text(widget.fooddata.name,style: TextStyle(fontSize: 27.0,fontWeight: FontWeight.bold,color: UniversalVariables.orangeColor),),
+          Text(widget.foodData.name,style: TextStyle(fontSize: 27.0,fontWeight: FontWeight.bold,color: UniversalVariables.orangeColor),),
           SizedBox(height: 20.0,),
           Row(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding: const EdgeInsets.only(left:18.0,top: 10.0,bottom: 10.0),
-                child: Text("₹" + widget.fooddata.price,style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,color:UniversalVariables.orangeColor),),
+                child: Text("₹" + widget.foodData.price,style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold,color:UniversalVariables.orangeColor),),
               ),
               SizedBox(width: 10.0,),
               // widget of counter
@@ -149,7 +152,7 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
                 ),
                 child: Row(
                   children: <Widget>[
-                    // check and show decreament button
+                    // check and show decrement button
                     foodDetailPageBloc.mItemCount != 1 ? 
                     new  IconButton(icon: new Icon(Icons.remove,color: UniversalVariables.whiteColor,size: 30.0,), onPressed: ()=> foodDetailPageBloc.decreamentItems(),)
                     :new  IconButton(icon: new Icon(Icons.remove,color: Colors.white,size: 30.0,),onPressed: ()=>null),
@@ -175,12 +178,22 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
               allowHalfRating: true,
               itemCount: 5,
               itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: UniversalVariables.amberColor,
+              ratingWidget: RatingWidget(
+                empty: Icon(
+                  Icons.star_outline,
+                  color: UniversalVariables.amberColor,
+                ),
+                half: Icon(
+                  Icons.star_border,
+                  color: UniversalVariables.amberColor,
+                ),
+                full: Icon(
+                  Icons.star,
+                  color: UniversalVariables.amberColor,
+                ),
               ),
               onRatingUpdate: (rating) {
-                // do nothing XD
+                // TODO : Implement own logic
               },
             ),
           ),
@@ -189,9 +202,9 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
             width: MediaQuery.of(context).size.width*0.9,
             child: TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(UniversalVariables.orangeColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),)
-                ),
+                  backgroundColor: MaterialStateProperty.all(UniversalVariables.orangeColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))
+                )
               ),
               onPressed: () => foodDetailPageBloc.addToCart(widget.fooddata),
               child: Text("Add To Cart",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500,color: UniversalVariables.whiteColor),),
@@ -220,7 +233,7 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
               : ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: foodDetailPageBloc.foodList.length,
-              itemBuilder: (_,index){
+              itemBuilder: (_, index){
                 return FoodTitleWidget(
                   foodDetailPageBloc.foodList[index],
                  );

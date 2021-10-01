@@ -16,7 +16,7 @@
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
+import 'package:food_delivery_app/resources/AuthMethods.dart';
 
 class LoginPageBloc with ChangeNotifier {
 

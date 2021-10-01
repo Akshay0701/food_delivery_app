@@ -17,9 +17,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Category.dart';
 import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/resourese/firebase_helper.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
-import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
+import 'package:food_delivery_app/resources/FirebaseHelper.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
+import 'package:food_delivery_app/widgets/FoodTitleWidget.dart';
 
 
 class CategoryListPage extends StatefulWidget {

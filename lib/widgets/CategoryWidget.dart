@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Category.dart';
 import 'package:food_delivery_app/screens/CategoryListPage.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
 
 class CategoryWidget extends StatelessWidget {
   final Category category;

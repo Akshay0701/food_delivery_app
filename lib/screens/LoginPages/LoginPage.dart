@@ -16,9 +16,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/LoginPageBloc.dart';
-import 'package:food_delivery_app/screens/homepage.dart';
-import 'package:food_delivery_app/screens/loginpages/register.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
+import 'package:food_delivery_app/screens/HomePage.dart';
+import 'package:food_delivery_app/screens/loginpages/RegisterPage.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
 import 'package:provider/provider.dart';
 
 

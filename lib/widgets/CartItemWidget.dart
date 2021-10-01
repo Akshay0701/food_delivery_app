@@ -16,9 +16,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/resourese/databaseSQL.dart';
+import 'package:food_delivery_app/resources/DatabaseSQL.dart';
 import 'package:food_delivery_app/screens/CartPage.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
 
 class CartItems extends StatefulWidget {
   final Food fooddata;

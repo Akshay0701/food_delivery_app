@@ -18,8 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:food_delivery_app/blocs/SearchPageBloc.dart';
 import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/utils/universal_variables.dart';
-import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
+import 'package:food_delivery_app/utils/UniversalVariables.dart';
+import 'package:food_delivery_app/widgets/FoodTitleWidget.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {

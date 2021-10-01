@@ -19,8 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Food.dart';
 
 import 'package:food_delivery_app/models/Category.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
-import 'package:food_delivery_app/resourese/firebase_helper.dart';
+import 'package:food_delivery_app/resources/AuthMethods.dart';
+import 'package:food_delivery_app/resources/FirebaseHelper.dart';
 
 class HomePageBloc with ChangeNotifier {
 
@@ -49,10 +49,10 @@ class HomePageBloc with ChangeNotifier {
   Category recentlyCategory3 = Category(image:"https://static.toiimg.com/thumb/54659021.cms?width=1200&height=1200",name: "french fries",keys: "07");
   Category recentlyCategory4 = Category(image:"https://i.pinimg.com/originals/3b/b4/ea/3bb4ea708b73c60a11ccd4a7bdbb1524.jpg",name: "kfc chicken",keys: "09");
 
-  FirebaseUser mFirebaseUser;
+  User mFirebaseUser;
 
   getCurrentUser() {
-    mAuthMethods.getCurrentUser().then((FirebaseUser currentUser)  {
+    mAuthMethods.getCurrentUser().then((User currentUser)  {
       mFirebaseUser = currentUser;
       notifyListeners();
     });
@@ -70,18 +70,17 @@ class HomePageBloc with ChangeNotifier {
     mFirebaseHelper.fetchAllFood().then((List<Food> fList) {
       fList.forEach((Food food) {
         // we are fetching 3 types of foods who's menu id is 05 03 and 07.
-        if(food.menuId=="05"){
+        if (food.menuId == "05") {
           popularFoodList.add(food);
         }
-        else if(food.menuId=="03"){
+        else if (food.menuId == "03") {
           foodList.add(food);
         }
-        else if(food.menuId=="07"){
+        else if (food.menuId == "07") {
           bannerFoodList.add(food);
         }
         notifyListeners();
       });
     });
   }
-
 }

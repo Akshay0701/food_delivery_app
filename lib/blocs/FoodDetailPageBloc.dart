@@ -19,9 +19,9 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/resourese/auth_methods.dart';
-import 'package:food_delivery_app/resourese/databaseSQL.dart';
-import 'package:food_delivery_app/resourese/firebase_helper.dart';
+import 'package:food_delivery_app/resources/AuthMethods.dart';
+import 'package:food_delivery_app/resources/DatabaseSQL.dart';
+import 'package:food_delivery_app/resources/FirebaseHelper.dart';
 
 class FoodDetailPageBloc with ChangeNotifier {
   
