@@ -40,10 +40,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Food App',
-     debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: UniversalVariables.orangeColor,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        visualDensity: VisualDensity.adaptivePlatformDensity
       ),
       home: FutureBuilder<FirebaseApp>(
         future: Firebase.initializeApp(),
@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           // Check for errors
           if (appSnapshot.hasError) {
             return Center(
-              child: Text('Something went wrong during Firebase Initialization!'),
+              child: Text('Something went wrong during Firebase Initialization!')
             );
           }
 
@@ -71,10 +71,10 @@ class _MyAppState extends State<MyApp> {
 
           // Otherwise, show something whilst waiting for initialization to complete
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator()
           );
         }
-      ),
+      )
     );
   }
 }
