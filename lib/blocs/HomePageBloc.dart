@@ -41,10 +41,10 @@ class HomePageBloc with ChangeNotifier {
   ];
 
   //for recently added food
-  Category recentlyCategory = Category(image:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80', name: 'burger', keys: '08');
-  Category recentlyCategory2 = Category(image:'https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/216054.jpg', name: 'Pizza', keys: '04');
-  Category recentlyCategory3 = Category(image:'https://static.toiimg.com/thumb/54659021.cms?width=1200&height=1200', name: 'french fries', keys: '07');
-  Category recentlyCategory4 = Category(image:'https://i.pinimg.com/originals/3b/b4/ea/3bb4ea708b73c60a11ccd4a7bdbb1524.jpg', name: 'kfc chicken', keys: '09');
+  Category recentlyCategory = Category(image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80', name: 'burger', keys: '08');
+  Category recentlyCategory2 = Category(image: 'https://img.buzzfeed.com/thumbnailer-prod-us-east-1/video-api/assets/216054.jpg', name: 'Pizza', keys: '04');
+  Category recentlyCategory3 = Category(image: 'https://static.toiimg.com/thumb/54659021.cms?width=1200&height=1200', name: 'french fries', keys: '07');
+  Category recentlyCategory4 = Category(image: 'https://i.pinimg.com/originals/3b/b4/ea/3bb4ea708b73c60a11ccd4a7bdbb1524.jpg', name: 'kfc chicken', keys: '09');
 
   User mFirebaseUser;
 
