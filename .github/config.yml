@@ -4,7 +4,7 @@
 
 # Comment to be posted to on first time issues
 newIssueWelcomeComment: >
-  Hello! 👋 Thanks for logging this issue. Please remember we are all volunteers here, so some patience may be required before we can get to the issue. Also remember that the fastest way to get resolution on an issue is to propose a change directly, https://github.com/Akshay0701/food_delivery_app
+  ![](https://media4.giphy.com/media/3o6fJ1BM7R2EBRDnxK/giphy.gif) Hello! 👋 Thanks for logging this issue. Please remember we are all volunteers here, so some patience may be required before we can get to the issue. Also remember that the fastest way to get resolution on an issue is to propose a change directly, https://github.com/Akshay0701/food_delivery_app
 
 # Configuration for new-pr-welcome - https://github.com/behaviorbot/new-pr-welcome
 
