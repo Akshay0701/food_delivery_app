@@ -57,8 +57,6 @@ class _MyOrderPageState extends State<MyOrderPage> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        // child: Container(
-        //   padding: EdgeInsets.only(top: 0.0,left: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,41 +71,29 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 ),
               ),
             ),
-            requestList.length == -1
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: requestList.length,
-                    itemBuilder: (_, index) {
-                      return OrderWidget(
-                        requestList[index],
-                      );
-                    }),
-            // createListOfOrder()
+            Padding(
+              padding: EdgeInsets.only(top: 0.0,left: 20.0),
+              child: createListOfOrder(),
+            ),
           ],
         ),
-        // ),
       ),
     );
   }
 
   createListOfOrder() {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: requestList.length == -1
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: requestList.length,
-              itemBuilder: (_, index) {
-                return OrderWidget(
-                  requestList[index],
-                );
-              }),
-    );
+    return requestList.length == -1
+      ? Center(child: CircularProgressIndicator())
+      : ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount: requestList.length,
+          itemBuilder: (_, index) {
+            return OrderWidget(
+              requestList[index],
+            );
+          },
+        );
   }
 }
