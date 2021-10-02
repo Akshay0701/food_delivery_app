@@ -6,7 +6,7 @@ import 'package:food_delivery_app/utils/universal_variables.dart';
 import 'foodTitleWidget.dart';
 
 class OrderWidget extends StatefulWidget {
-  Request request;
+  final Request request;
   OrderWidget(this.request);
 
   @override
