@@ -26,6 +26,7 @@ import 'package:food_delivery_app/screens/CategoryListPage.dart';
 import 'package:food_delivery_app/screens/FoodDetailPage.dart';
 import 'package:food_delivery_app/screens/MyOrderPage.dart';
 import 'package:food_delivery_app/screens/SearchPage.dart';
+import 'package:food_delivery_app/utils/universal_variables.dart';
 import 'package:food_delivery_app/widgets/categorywidget.dart';
 import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
 import 'package:provider/provider.dart';
@@ -41,8 +42,12 @@ class HomePage extends StatelessWidget {
 }
 
 class HomePageContent extends StatefulWidget {
-  // final Request request;
-  // HomePageContent(this.request);
+
+  final Request request;
+  HomePageContent(this.request);
+
+  get request => null;
+
   @override
   _HomePageContentState createState() => _HomePageContentState();
 }
@@ -359,6 +364,10 @@ class _HomePageContentState extends State<HomePageContent> {
               ),
             ),
           ),
+
+
+          createSatusBar(),
+
           Container(
             height: 100.0,
             child: Stepper(
@@ -379,6 +388,7 @@ class _HomePageContentState extends State<HomePageContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Text(
                   "Your Food",
                   style: TextStyle(
@@ -388,6 +398,10 @@ class _HomePageContentState extends State<HomePageContent> {
                   ),
                 ),
                 createListOfFood(),
+
+                Text("Your Food",style: TextStyle(color: Colors.black45,fontSize: 16.0,fontWeight: FontWeight.bold,),),
+                createListOfFood(),
+
               ],
             ),
           )
