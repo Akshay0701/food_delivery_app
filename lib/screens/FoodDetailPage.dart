@@ -185,18 +185,18 @@ class _FoodDetailPageContentState extends State<FoodDetailPageContent> {
             ),
           ),
           SizedBox(height: 30.0,),
-        SizedBox(
-          width: double.infinity,
-          child: TextButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(UniversalVariables.orangeColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),)
+          SizedBox(
+            width: MediaQuery.of(context).size.width*0.9,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(UniversalVariables.orangeColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),)
+                ),
               ),
+              onPressed: () => foodDetailPageBloc.addToCart(widget.fooddata),
+              child: Text("Add To Cart",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500,color: UniversalVariables.whiteColor),),
             ),
-            onPressed: () => foodDetailPageBloc.addToCart(widget.fooddata),
-            child: Text("Add To Cart",style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.w500,color: UniversalVariables.whiteColor),),
           ),
-        ),
           SizedBox(height: 20.0,),
         ],
       ),
