@@ -25,6 +25,7 @@ import 'package:food_delivery_app/screens/CategoryListPage.dart';
 import 'package:food_delivery_app/screens/FoodDetailPage.dart';
 import 'package:food_delivery_app/screens/MyOrderPage.dart';
 import 'package:food_delivery_app/screens/SearchPage.dart';
+import 'package:food_delivery_app/utils/universal_variables.dart';
 import 'package:food_delivery_app/widgets/categorywidget.dart';
 import 'package:food_delivery_app/widgets/foodTitleWidget.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,8 @@ class HomePage extends StatelessWidget {
 }
 
 class HomePageContent extends StatefulWidget {
+  get request => null;
+
   @override
   _HomePageContentState createState() => _HomePageContentState();
 }
@@ -262,21 +265,20 @@ class _HomePageContentState extends State<HomePageContent> {
             trailing:Text(widget.request.total+" Rs.",style: TextStyle(color: UniversalVariables.orangeColor,fontSize: 20.0, fontWeight: FontWeight.bold,),) ,
           ),
 
-          createSatusBar(),
+          // createSatusBar(),
           Container(
             padding: EdgeInsets.only(left: 20.0,top: 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Your Food",style: TextStyle(color: Colors.black45,fontSize: 16.0,fontWeight: FontWeight.bold,),),
-                createListOfFood(),
+                // createListOfFood(),
               ],
             ),
           )
         ],
       ),
     );
-  }
   }
 
   createSearchBar(){
