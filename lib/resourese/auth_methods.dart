@@ -73,4 +73,9 @@ class AuthMethods {
         .child(currentUser.uid)
         .set(user.toMap(user));
   }
+
+  // Logs out current user from the application
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 }
