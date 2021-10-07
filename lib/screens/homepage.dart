@@ -215,7 +215,6 @@ class _HomePageContentState extends State<HomePageContent> {
             onTap: () async {
               final AuthMethods _authMethods = AuthMethods();
               await _authMethods.logout();
-              Navigator.pop(context);
             },
           ),
         ],

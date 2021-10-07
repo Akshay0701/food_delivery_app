@@ -43,16 +43,16 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: UniversalVariables.orangeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: FutureBuilder(
-          future: _authMethods.getCurrentUser(),
-          builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
-            if (snapshot.hasData) {
-              return HomePage();
-            } else {
-              return LoginPage();
-            }
-          },
-        ),
+      home: StreamBuilder(
+        stream: _authMethods.onAuthStateChanged,
+        builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+          if (snapshot.hasData) {
+            return HomePage();
+          } else {
+            return LoginPage();
+          }
+        },
+      ),
     );
   }
 }
