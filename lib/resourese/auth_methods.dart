@@ -34,6 +34,11 @@ class AuthMethods {
     return currentUser;
   }
 
+  // gets auth state of user through out the life cycle of the app
+  Stream<FirebaseUser> get onAuthStateChanged {
+    return _auth.onAuthStateChanged;
+  }
+
   //sign in current user with email and password
   Future<FirebaseUser> handleSignInEmail(String email, String password) async {
     final FirebaseUser user = await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -72,5 +77,10 @@ class AuthMethods {
     _userReference
         .child(currentUser.uid)
         .set(user.toMap(user));
+  }
+
+  // Logs out current user from the application
+  Future<void> logout() async {
+    await _auth.signOut();
   }
 }

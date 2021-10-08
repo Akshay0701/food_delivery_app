@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:food_delivery_app/blocs/HomePageBloc.dart';
 import 'package:food_delivery_app/models/Category.dart';
+import 'package:food_delivery_app/resourese/auth_methods.dart';
 import 'package:food_delivery_app/screens/CartPage.dart';
 import 'package:food_delivery_app/screens/CategoryListPage.dart';
 import 'package:food_delivery_app/screens/FoodDetailPage.dart';
@@ -211,8 +212,9 @@ class _HomePageContentState extends State<HomePageContent> {
             trailing: Icon(Icons.arrow_forward_ios,),
             leading: Icon(Icons.clear,color: Colors.orangeAccent,),
             title: Text('Logout'),
-            onTap: () {
-              Navigator.pop(context);
+            onTap: () async {
+              final AuthMethods _authMethods = AuthMethods();
+              await _authMethods.logout();
             },
           ),
         ],
