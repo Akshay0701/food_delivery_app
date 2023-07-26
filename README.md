@@ -47,6 +47,21 @@ Contribute
 You can contribute to food_delivery_app by beta testing or submitting code. 
 See the [contribution wiki page](https://github.com/Akshay0701/food_delivery_app/blob/master/COPYING.txt) for more info.
 
-License
--------
-[GPL-3.0 License](https://github.com/ankidroid/Anki-Android/blob/master/COPYING)  
+
+
+
+## Built With 🎯
+**A lot of love and Flutter**
+
+## Contributing 
+
+Make Pull requests which improve the functionality of the application in any sorts. It should conform with the following conditions. 
+* Clear , short , crisp description of the PR. 
+* Should add on to the value of the application.
+
+
+## Acknowledgments 💖
+
+* To my family👪  and friends 👫 who always kept me motivated.
+* To the community of computer science 💻.
+
