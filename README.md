@@ -42,14 +42,6 @@ Anyone can use this code for their own purpose. If you are interested please mak
 
 <img src="https://cdn-media-1.freecodecamp.org/images/0*CPTNvq87xG-sUGdx.png" height="300" width="400">
 
-Contribute
-----------
-You can contribute to food_delivery_app by beta testing or submitting code. 
-See the [contribution wiki page](https://github.com/Akshay0701/food_delivery_app/blob/master/COPYING.txt) for more info.
-
-
-
-
 ## Built With 🎯
 **A lot of love and Flutter**
 
