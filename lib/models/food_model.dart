@@ -14,28 +14,25 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+class FoodModel {
+  final String description;
+  final String discount;
+  final String image;
+  final String menuId;
+  final String name;
+  final String price;
+  final String keys;
 
-class Food{
-  String description;
-  String discount;
-  String image;
-  String menuId;
-  String name;
-  String price;
-  String keys;
+  FoodModel(
+      {required this.description,
+      required this.discount,
+      required this.image,
+      required this.menuId,
+      required this.name,
+      required this.price,
+      required this.keys});
 
-
-  Food({
-    this.description,
-    this.discount,
-    this.image,
-    this.menuId,
-    this.name,
-    this.price,
-    this.keys
-  });
-
-  Map toMap(Food food) {
+  Map toMap(FoodModel food) {
     var data = Map<String, dynamic>();
     data['description'] = food.description;
     data['discount'] = food.discount;
@@ -47,13 +44,17 @@ class Food{
     return data;
   }
 
-  Food.fromMap(Map<dynamic, dynamic> mapData) {
-    this.description = mapData['description'];
-    this.discount = mapData['discount'];
-    this.image = mapData['image'];
-    this.menuId = mapData['menuId'];
-    this.name = mapData['name'];
-    this.price = mapData['price'];
-    this.keys = mapData['keys'];
+  factory FoodModel.fromMap(
+    Map<dynamic, dynamic> mapData,
+  ) {
+    return FoodModel(
+      description: mapData['description'],
+      discount: mapData['discount'],
+      image: mapData['image'],
+      menuId: mapData['menuId'],
+      name: mapData['name'],
+      price: mapData['price'],
+      keys: mapData['keys'],
+    );
   }
 }

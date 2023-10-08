@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/models/Food.dart';
-import 'package:food_delivery_app/models/Request.dart';
+import 'package:food_delivery_app/models/food_model.dart';
+import 'package:food_delivery_app/models/request_model.dart';
 import 'package:food_delivery_app/utils/universal_variables.dart';
 
 import 'foodTitleWidget.dart';
 
 class OrderWidget extends StatefulWidget {
-  final Request request;
+  final RequestModel request;
   OrderWidget(this.request);
 
   @override
@@ -40,19 +40,47 @@ class _OrderWidgetState extends State<OrderWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: Text(widget.request.name,style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold,),),
-            subtitle:Text(widget.request.address,style: TextStyle(color: Colors.black38,fontWeight: FontWeight.normal,),) ,
-            leading: CircleAvatar(backgroundImage: NetworkImage("https://www.pngitem.com/pimgs/m/252-2523515_delivery-clipart-delivery-order-frames-illustrations.png"),),
-            trailing:Text(widget.request.total+" Rs.",style: TextStyle(color: UniversalVariables.orangeColor,fontSize: 20.0, fontWeight: FontWeight.bold,),) ,
+            title: Text(
+              widget.request.name,
+              style: TextStyle(
+                color: Colors.black45,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(
+              widget.request.address,
+              style: TextStyle(
+                color: Colors.black38,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://www.pngitem.com/pimgs/m/252-2523515_delivery-clipart-delivery-order-frames-illustrations.png"),
+            ),
+            trailing: Text(
+              widget.request.total + " Rs.",
+              style: TextStyle(
+                color: UniversalVariables.orangeColor,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-
           createSatusBar(),
           Container(
-            padding: EdgeInsets.only(left: 20.0,top: 0.0),
+            padding: EdgeInsets.only(left: 20.0, top: 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Your Food",style: TextStyle(color: Colors.black45,fontSize: 16.0,fontWeight: FontWeight.bold,),),
+                Text(
+                  "Your Food",
+                  style: TextStyle(
+                    color: Colors.black45,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 createListOfFood(),
               ],
             ),
@@ -62,7 +90,7 @@ class _OrderWidgetState extends State<OrderWidget> {
     );
   }
 
-  createSatusBar(){
+  createSatusBar() {
     return Container(
       height: 100.0,
       child: Stepper(
@@ -70,17 +98,19 @@ class _OrderWidgetState extends State<OrderWidget> {
         steps: steps,
         type: StepperType.horizontal,
         physics: NeverScrollableScrollPhysics(),
-        controlsBuilder: (BuildContext context,
-            {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
-            Container(height: 0.0,),
+        controlsBuilder:
+            (BuildContext context, ControlsDetails controlsDetails) =>
+                Container(
+          height: 0.0,
+        ),
       ),
     );
   }
 
-  createListOfFood(){
-    List<Food> foodList=[];
+  createListOfFood() {
+    List<FoodModel> foodList = [];
     widget.request.foodList.forEach((key, value) {
-      Food food = Food(
+      FoodModel food = FoodModel(
         name: value["name"],
         image: value["image"],
         keys: value["keys"],
@@ -93,17 +123,17 @@ class _OrderWidgetState extends State<OrderWidget> {
     });
 
     return Container(
-      height:200.0,
-      child: foodList.length==-1 ? Center(child: CircularProgressIndicator())
+      height: 200.0,
+      child: foodList.length == -1
+          ? Center(child: CircularProgressIndicator())
           : ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: foodList.length,
-          itemBuilder: (_,index){
-            return FoodTitleWidget(
-              foodList[index],
-            );
-          }
-      ),
+              scrollDirection: Axis.horizontal,
+              itemCount: foodList.length,
+              itemBuilder: (_, index) {
+                return FoodTitleWidget(
+                  foodList[index],
+                );
+              }),
     );
   }
 }

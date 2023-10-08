@@ -16,25 +16,24 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/models/Food.dart';
+import 'package:food_delivery_app/models/food_model.dart';
 import 'package:food_delivery_app/resourese/databaseSQL.dart';
 import 'package:food_delivery_app/resourese/firebase_helper.dart';
 import 'package:food_delivery_app/screens/homepage.dart';
 
 class CartPageBloc with ChangeNotifier {
-  
-  List<Food> foodList=[];
+  List<FoodModel> foodList = [];
   int totalPrice = 0;
 
   FirebaseHelper mFirebaseHelper = FirebaseHelper();
-  DatabaseSql databaseSql;
+  late DatabaseSql databaseSql;
 
-  BuildContext context;
+  BuildContext? context;
 
-  getDatabaseValue() async{
+  getDatabaseValue() async {
     databaseSql = DatabaseSql();
     await databaseSql.openDatabaseSql();
-    foodList= await databaseSql.getData();
+    foodList = await databaseSql.getData();
     //calculating total price
     foodList.forEach((food) {
       int foodItemPrice = int.parse(food.price);
@@ -43,14 +42,16 @@ class CartPageBloc with ChangeNotifier {
     notifyListeners();
   }
 
-   // ignore: non_constant_identifier_names
+  // ignore: non_constant_identifier_names
   orderPlaceToFirebase(String name, String address) async {
-    mFirebaseHelper.addOrder(totalPrice.toString(), foodList, name, address).then((isAdded) {  
-        notifyListeners();
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => HomePage())); 
+    mFirebaseHelper
+        .addOrder(totalPrice.toString(), foodList, name, address)
+        .then((isAdded) {
+      notifyListeners();
+      if (context != null) {
+        Navigator.pushReplacement(context!,
+            MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+      }
     });
   }
 }
