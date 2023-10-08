@@ -42,6 +42,7 @@ dependencies:
   #for rating star
   flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.2.1
+  firebase_core: ^2.17.0
 
 dev_dependencies:
   flutter_test:

@@ -14,25 +14,24 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+class RequestModel {
+  final String address;
+  final Map foodList;
+  final String name;
+  final String uid;
+  final String status;
+  final String total;
 
-class Request{
-  String address;
-  Map foodList;
-  String name;
-  String uid;
-  String status;
-  String total;
-
-  Request({
-    this.address,
-    this.foodList,
-    this.name,
-    this.uid,
-    this.status,
-    this.total
+  RequestModel({
+    required this.address,
+    required this.foodList,
+    required this.name,
+    required this.uid,
+    required this.status,
+    required this.total,
   });
 
-  Map toMap(Request request) {
+  Map toMap(RequestModel request) {
     var data = Map<String, dynamic>();
     data['address'] = request.address;
     data['foodList'] = request.foodList;
@@ -43,12 +42,14 @@ class Request{
     return data;
   }
 
-  Request.fromMap(Map<dynamic, dynamic> mapData) {
-    this.address = mapData['address'];
-    this.foodList = mapData['foodList'];
-    this.name=mapData['name'];
-    this.uid=mapData["uid"];
-    this.status=mapData["status"];
-    this.total=mapData["total"];
+  factory RequestModel.fromMap(Map<dynamic, dynamic> mapData) {
+    return RequestModel(
+      address: mapData['address'],
+      foodList: mapData['foodList'],
+      name: mapData['name'],
+      uid: mapData['uid'],
+      status: mapData['status'],
+      total: mapData['total'],
+    );
   }
 }

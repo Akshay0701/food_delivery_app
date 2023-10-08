@@ -14,32 +14,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class User{
-  String uid;
-  String phone;
-  String email;
-  String password;
+class CategoryModel {
+  final String image;
+  final String name;
+  final String keys;
 
-  User({
-    this.uid,
-    this.email,
-    this.password,
-    this.phone
-  });
-
-  Map toMap(User user) {
-    var data = Map<String, dynamic>();
-    data['uid'] = user.uid;
-    data['email'] = user.email;
-    data['phone']=user.phone;
-    data['password']=user.password;
-    return data;
-  }
-
-  User.fromMap(Map<String, dynamic> mapData) {
-    this.uid = mapData['uid'];
-    this.email = mapData['email'];
-    this.phone=mapData['phone'];
-    this.password=mapData["password"];
-  }
+  CategoryModel({required this.image, required this.name, required this.keys});
 }
