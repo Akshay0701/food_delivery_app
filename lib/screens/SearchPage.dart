@@ -47,9 +47,6 @@ class _SearchPageContentState extends State<SearchPageContent> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // TODO:  if we need to update the ui need to wrap with consumer
-    searchPageBloc = Provider.of<SearchPageBloc>(context, listen: false);
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       searchPageBloc.loadFoodList();
     });
@@ -57,6 +54,7 @@ class _SearchPageContentState extends State<SearchPageContent> {
 
   @override
   Widget build(BuildContext context) {
+    searchPageBloc = Provider.of<SearchPageBloc>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
