@@ -1,18 +1,4 @@
-/*
- * Copyright (c) 2021 Akshay Jadhav <jadhavakshay0701@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+
 
 import 'dart:math';
 
@@ -29,9 +15,6 @@ class FoodDetailPageBloc with ChangeNotifier {
 
   List<FoodModel> foodList = [];
 
-  // I dont implemented rating system,
-  // so just for good UI, i am showing random value of rates from 0.00 to 5.00,
-  // I been lazy here XD.
   var random = new Random();
   String rating = "1.00";
 
@@ -50,7 +33,7 @@ class FoodDetailPageBloc with ChangeNotifier {
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-          // Some code to undo the change.
+          // Todo code to undo the change.
         },
       ),
     );
