@@ -53,6 +53,4 @@ Make Pull requests which improve the functionality of the application in any sor
 
 
 ## Acknowledgments 💖
-
-* To my family👪  and friends 👫 who always kept me motivated.
 * To the community of computer science 💻.
